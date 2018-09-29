@@ -1,6 +1,5 @@
-import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { Audio } from './audio/html-audio';
+import { Audio } from './audio/audio';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -8,8 +7,9 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     audioMock = {
-      src: ''
-
+      src: '',
+      onPause: null,
+      onTimeUpdate: null
     };
     component = new AppComponent({
       createAudio: () => audioMock
