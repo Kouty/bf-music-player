@@ -11,7 +11,8 @@ describe('AppComponent', () => {
       src: '',
       onPause: new Subject<boolean>(),
       onTimeUpdate: new Subject<number>(),
-      play: jasmine.createSpy('play')
+      play: jasmine.createSpy('play'),
+      pause: jasmine.createSpy('pause')
     };
     component = new AppComponent({
       createAudio: () => <Audio>audioMock
@@ -48,5 +49,21 @@ describe('AppComponent', () => {
 
     expect(audioMock.src).not.toBe('');
     expect(audioMock.play).toHaveBeenCalled();
+  });
+
+  it('should play the current track when the user click play', () => {
+    component.ngOnInit();
+
+    component.onPlayPauseClick(true);
+
+    expect(audioMock.play).toHaveBeenCalled();
+  });
+
+  it('should pause the current track when the user click pause', () => {
+    component.ngOnInit();
+
+    component.onPlayPauseClick(false);
+
+    expect(audioMock.pause).toHaveBeenCalled();
   });
 });

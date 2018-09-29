@@ -5,18 +5,12 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SongsQueueComponent } from './songs-queue/songs-queue.component';
 import { TrackBarComponent } from './track-bar/track-bar.component';
+import { AudioProvider } from './audio/audio-provider';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SongsQueueComponent,
-    TrackBarComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule
-  ],
-  providers: [],
+  declarations: [AppComponent, SongsQueueComponent, TrackBarComponent],
+  imports: [BrowserModule, BrowserAnimationsModule],
+  providers: [AudioProvider],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

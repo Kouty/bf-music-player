@@ -7,4 +7,5 @@ export interface Audio {
   onTimeUpdate: Observable<number>;
 
   play(): Promise<void>;
+  pause(): void;
 }

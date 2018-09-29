@@ -34,7 +34,8 @@ export class AppComponent implements OnInit {
   private currentAudio: Audio;
   private currentTrackIndex = 0;
 
-  constructor(private audioProvider: AudioProvider) {}
+  constructor(private audioProvider: AudioProvider) {
+  }
 
   ngOnInit() {
     this.currentAudio = this.audioProvider.createAudio();
@@ -46,12 +47,22 @@ export class AppComponent implements OnInit {
     });
   }
 
-  playTrack() {
-    this.currentAudio.src = this.queue[this.currentTrackIndex].src;
+  playTrack(): Promise<void> {
+    if (this.currentAudio.src !== this.queue[this.currentTrackIndex].src) {
+      this.currentAudio.src = this.queue[this.currentTrackIndex].src;
+    }
     return this.currentAudio.play();
+  }
+
+  pauseTrack(): void {
+    this.currentAudio.pause();
   }
 
   onSongSelected(index: number) {
     this.currentTrackIndex = index;
+  }
+
+  onPlayPauseClick(paused: boolean) {
+    paused ? this.playTrack() : this.pauseTrack();
   }
 }

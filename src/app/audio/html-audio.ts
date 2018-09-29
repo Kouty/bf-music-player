@@ -35,4 +35,8 @@ export class HtmlAudio implements Audio {
   play() {
     return this.element.play();
   }
+
+  pause() {
+    this.element.pause();
+  }
 }
