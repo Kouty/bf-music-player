@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrackData } from './track-data';
 import { TrackBarModel } from './track-bar/track-bar.model';
-import { HtmlAudio } from './audio/html-audio';
+import { Audio } from './audio/audio';
 import { AudioProvider } from './audio/audio-provider';
 
 @Component({
@@ -31,17 +31,16 @@ export class AppComponent implements OnInit {
     endTime: 60
   };
 
-  private currentAudio: HtmlAudio;
-  private currentTrack: TrackData;
+  private currentAudio: Audio;
 
   constructor(private audioProvider: AudioProvider) {
   }
 
   ngOnInit() {
-    // this.currentAudio = this.audioProvider.createAudio();
-    // this.currentAudio.onPause().subscribe(() => {
-    //   this.currentTrack.paused = false;
-    // });
+    this.currentAudio = this.audioProvider.createAudio();
+    this.currentAudio.onPause.subscribe((paused) => {
+      this.trackBarModel.paused = paused;
+    });
   }
 
   playTrack(trackData) {
