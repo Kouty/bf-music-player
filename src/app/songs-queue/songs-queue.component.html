@@ -1,5 +1,5 @@
 <div>
-  <div *ngFor="let item of items" (click)="selectSong(item)">
+  <div *ngFor="let item of items;let i = index;" (click)="selectSong(i)">
     <span>{{item.title}}</span>
     <span>{{item.artist}}</span>
     <span>{{item.album}}</span>

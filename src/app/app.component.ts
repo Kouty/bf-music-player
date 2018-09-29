@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SongsQueueItem } from './songs-queue/songs-queue-item';
+import { SongData } from './song-data';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,7 @@ import { SongsQueueItem } from './songs-queue/songs-queue-item';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  queue: SongsQueueItem[] = [
+  queue: SongData[] = [
     {
       src: 'https://www.bensound.com/bensound-music/bensound-ukulele.mp3',
       title: 'Ukulele',
@@ -21,4 +21,8 @@ export class AppComponent {
       album: 'Bensound'
     }
   ];
+
+  onSongSelected(index: number) {
+    console.log(index);
+  }
 }

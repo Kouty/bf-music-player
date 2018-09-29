@@ -1,7 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SongsQueueComponent } from './songs-queue.component';
-import { SongsQueueItem } from './songs-queue-item';
 
 describe('SongsQueueComponent', () => {
   let component: SongsQueueComponent;
@@ -11,18 +8,13 @@ describe('SongsQueueComponent', () => {
   });
 
   it('should emit songSelected when a track is clicked', done => {
-    const item: SongsQueueItem = {
-      src: 'src',
-      title: 'title',
-      artist: 'artist',
-      album: 'album'
-    };
+    const index = 2;
 
     component.songSelected.subscribe(emitted => {
-      expect(emitted).toBe(item);
+      expect(emitted).toBe(index);
       done();
     });
 
-    component.selectSong(item);
+    component.selectSong(index);
   });
 });

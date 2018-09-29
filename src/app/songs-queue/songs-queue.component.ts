@@ -11,7 +11,7 @@ export class SongsQueueComponent implements OnInit {
   @Input()
   items: SongsQueueItem[];
   @Output()
-  songSelected = new EventEmitter<SongsQueueItem>();
+  songSelected = new EventEmitter<number>();
 
   constructor() {
   }
@@ -19,7 +19,7 @@ export class SongsQueueComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectSong(item: SongsQueueItem) {
-    this.songSelected.emit(item);
+  selectSong(index: number) {
+    this.songSelected.emit(index);
   }
 }
