@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SongData } from './song-data';
+import { TrackBarModel } from './track-bar/track-bar.model';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,12 @@ export class AppComponent {
       album: 'Bensound'
     }
   ];
+
+  trackBarData: TrackBarModel = {
+    paused: true,
+    currentTime: 0,
+    endTime: 60
+  };
 
   onSongSelected(index: number) {
     console.log(index);

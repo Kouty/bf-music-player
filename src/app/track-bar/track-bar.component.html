@@ -1,5 +1,8 @@
 <div>
   <span>Paused: {{model.paused}}</span>
   <span>CrtTime: {{model.currentTime}}</span>
+  <div></div>
+  <input type="range" min="0" [max]="model.endTime" [value]="model.currentTime"/>
+  <div></div>
   <button (click)="playPauseClick()">Play</button>
 </div>
