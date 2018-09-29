@@ -2,14 +2,14 @@ import { HtmlAudio } from './html-audio';
 
 describe('AudioTrack', () => {
   let audio: HtmlAudio;
-  let audioElementMock: HTMLAudioElement;
+  let audioElementMock;
 
   beforeEach(() => {
-    audioElementMock = <HTMLAudioElement>{
+    audioElementMock = {
       src: '',
       currentTime: 0
     };
-    audio = new HtmlAudio(audioElementMock);
+    audio = new HtmlAudio(<HTMLAudioElement>audioElementMock);
   });
 
   it('should provide a src audio setter', () => {
@@ -44,6 +44,28 @@ describe('AudioTrack', () => {
       audioElementMock.ontimeupdate(<Event>{});
 
       expect(updateTime).toBe(expectedTime);
+    });
+  });
+
+  describe('onPause', () => {
+    it('should expose pause event as an Observable', done => {
+      audio.onPause().subscribe((paused) => {
+        expect(paused).toBe(true);
+        done();
+      });
+
+      audioElementMock.paused = true;
+      audioElementMock.onpause(<Event>{});
+    });
+
+    it('should emit paused false on play event', done => {
+      audio.onPause().subscribe((paused) => {
+        expect(paused).toBe(false);
+        done();
+      });
+
+      audioElementMock.paused = false;
+      audioElementMock.onplay(<Event>{});
     });
   });
 });
