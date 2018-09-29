@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // this.currentAudio = this.audioProvider.createAudio();
-    // this.currentAudio.pauseEvent().subscribe(() => {
+    // this.currentAudio.onPause().subscribe(() => {
     //   this.currentTrack.paused = false;
     // });
   }

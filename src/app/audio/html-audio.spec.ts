@@ -36,7 +36,7 @@ describe('AudioTrack', () => {
     it('should expose timeupdate event as an Observable', () => {
       let updateTime = 0;
       const expectedTime = 12;
-      audio.onTimeUpdate().subscribe(videoTime => {
+      audio.onTimeUpdate.subscribe(videoTime => {
         updateTime = videoTime;
       });
 
@@ -49,7 +49,7 @@ describe('AudioTrack', () => {
 
   describe('onPause', () => {
     it('should expose pause event as an Observable', done => {
-      audio.onPause().subscribe((paused) => {
+      audio.onPause.subscribe((paused) => {
         expect(paused).toBe(true);
         done();
       });
@@ -59,7 +59,7 @@ describe('AudioTrack', () => {
     });
 
     it('should emit paused false on play event', done => {
-      audio.onPause().subscribe((paused) => {
+      audio.onPause.subscribe((paused) => {
         expect(paused).toBe(false);
         done();
       });

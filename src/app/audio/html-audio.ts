@@ -1,6 +1,7 @@
 import { Observable, Subject } from 'rxjs';
+import { Audio } from './audio';
 
-export class HtmlAudio {
+export class HtmlAudio implements Audio {
   private timeSubject = new Subject<number>();
   private pauseSubject = new Subject<boolean>();
 
@@ -23,11 +24,11 @@ export class HtmlAudio {
     return this.element.src;
   }
 
-  onTimeUpdate(): Observable<number> {
+  get onTimeUpdate(): Observable<number> {
     return this.timeSubject;
   }
 
-  onPause(): Observable<boolean> {
+  get onPause(): Observable<boolean> {
     return this.pauseSubject;
   }
 }
