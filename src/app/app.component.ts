@@ -33,13 +33,15 @@ export class AppComponent implements OnInit {
 
   private currentAudio: Audio;
 
-  constructor(private audioProvider: AudioProvider) {
-  }
+  constructor(private audioProvider: AudioProvider) {}
 
   ngOnInit() {
     this.currentAudio = this.audioProvider.createAudio();
-    this.currentAudio.onPause.subscribe((paused) => {
+    this.currentAudio.onPause.subscribe(paused => {
       this.trackBarModel.paused = paused;
+    });
+    this.currentAudio.onTimeUpdate.subscribe(currentTime => {
+      this.trackBarModel.currentTime = currentTime;
     });
   }
 
@@ -47,7 +49,6 @@ export class AppComponent implements OnInit {
     // this.currentTrack = trackData;
     // this.currentTrackAudio.src = trackData.src;
     // this.currentTrackAudio.play();
-
     // this.trackBarModel = {
     //   paused: false,
     //   currentTime: 0,

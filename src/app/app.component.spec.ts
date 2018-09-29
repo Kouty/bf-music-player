@@ -32,4 +32,12 @@ describe('AppComponent', () => {
 
     expect(component.trackBarModel.paused).toBe(false);
   });
+
+  it('should update currentTime when onTimeUpdate emits values', () => {
+    component.ngOnInit();
+
+    audioMock.onTimeUpdate.next(10);
+
+    expect(component.trackBarModel.currentTime).toBe(10);
+  });
 });
