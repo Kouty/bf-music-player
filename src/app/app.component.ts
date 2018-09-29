@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   };
 
   private currentAudio: Audio;
+  private currentTrackIndex = 0;
 
   constructor(private audioProvider: AudioProvider) {}
 
@@ -45,18 +46,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  playTrack(trackData) {
-    // this.currentTrack = trackData;
-    // this.currentTrackAudio.src = trackData.src;
-    // this.currentTrackAudio.play();
-    // this.trackBarModel = {
-    //   paused: false,
-    //   currentTime: 0,
-    //   endTime: 60
-    // };
+  playTrack() {
+    this.currentAudio.src = this.queue[this.currentTrackIndex].src;
+    return this.currentAudio.play();
   }
 
   onSongSelected(index: number) {
-    console.log(index);
+    this.currentTrackIndex = index;
   }
 }

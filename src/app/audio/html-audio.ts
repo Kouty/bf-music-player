@@ -31,4 +31,8 @@ export class HtmlAudio implements Audio {
   get onPause(): Observable<boolean> {
     return this.pauseSubject;
   }
+
+  play() {
+    return this.element.play();
+  }
 }

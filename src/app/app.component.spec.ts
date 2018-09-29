@@ -10,7 +10,8 @@ describe('AppComponent', () => {
     audioMock = {
       src: '',
       onPause: new Subject<boolean>(),
-      onTimeUpdate: new Subject<number>()
+      onTimeUpdate: new Subject<number>(),
+      play: jasmine.createSpy('play')
     };
     component = new AppComponent({
       createAudio: () => <Audio>audioMock
@@ -39,5 +40,13 @@ describe('AppComponent', () => {
     audioMock.onTimeUpdate.next(10);
 
     expect(component.trackBarModel.currentTime).toBe(10);
+  });
+
+  it('should play current track', () => {
+    component.ngOnInit();
+    component.playTrack();
+
+    expect(audioMock.src).not.toBe('');
+    expect(audioMock.play).toHaveBeenCalled();
   });
 });
