@@ -6,7 +6,8 @@ describe('AudioTrack', () => {
 
   beforeEach(() => {
     audioElementMock = <HTMLAudioElement>{
-      src: ''
+      src: '',
+      currentTime: 0
     };
     audio = new HtmlAudio(audioElementMock);
   });
@@ -25,6 +26,20 @@ describe('AudioTrack', () => {
     audio.src = trackUrl;
 
     expect(audio.src).toEqual(trackUrl);
+  });
+
+  describe('ontimeupdate ', () => {
+
+    it('should register to ontimeupdate', () => {
+      expect(audioElementMock.ontimeupdate).not.toBe(undefined);
+    });
+
+    // it('should expose timeupdate event as an Observable', () => {
+    // audio.onTimeUpdate.subscribe((videoTime) => {
+    //
+    // });
+    // });
+
   });
 
 
