@@ -6,4 +6,5 @@ export interface TrackBarModel {
   duration: number;
   volume: number;
   trackData: TrackData;
+  random: boolean;
 }

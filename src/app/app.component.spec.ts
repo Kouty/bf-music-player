@@ -174,4 +174,18 @@ describe('AppComponent', () => {
 
     expect(component.switchTrack).toHaveBeenCalled();
   });
+
+  it('should update trackModel when user activates random play', () => {
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
+
+    expect(component.trackBarModel.random).toBe(true);
+  });
+
+  it('should keep random state when switching song', () => {
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
+    component.onSongSelected(1);
+    component.switchTrack();
+
+    expect(component.trackBarModel.random).toBe(true);
+  });
 });

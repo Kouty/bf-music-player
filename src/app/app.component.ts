@@ -40,7 +40,8 @@ export class AppComponent implements OnInit {
     currentTime: 0,
     duration: 0,
     volume: 1,
-    trackData: null
+    trackData: null,
+    random: false
   };
 
   trackBarModelB: TrackBarModel = {
@@ -48,7 +49,8 @@ export class AppComponent implements OnInit {
     currentTime: 0,
     duration: 0,
     volume: 1,
-    trackData: null
+    trackData: null,
+    random: false
   };
   private _trackBarModel: TrackBarModel;
 
@@ -199,5 +201,8 @@ export class AppComponent implements OnInit {
         this.randomPlayback = !this.randomPlayback;
         break;
     }
+
+    this.trackBarModelA.random = this.randomPlayback;
+    this.trackBarModelB.random = this.randomPlayback;
   }
 }
