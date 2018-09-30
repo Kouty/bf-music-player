@@ -5,6 +5,7 @@ export class HtmlAudio implements Audio {
   private timeSubject = new Subject<number>();
   private pauseSubject = new Subject<boolean>();
   private loadedMetadataSubject = new Subject<void>();
+  private endedSubject = new Subject<void>();
 
   constructor(private element: HTMLAudioElement) {
     this.element.ontimeupdate = () => {
@@ -15,9 +16,11 @@ export class HtmlAudio implements Audio {
     };
     this.element.onpause = emitPauseState;
     this.element.onplay = emitPauseState;
-
     this.element.onloadedmetadata = () => {
       this.loadedMetadataSubject.next();
+    };
+    this.element.onended = () => {
+      this.endedSubject.next();
     };
   }
 
@@ -53,6 +56,10 @@ export class HtmlAudio implements Audio {
 
   get onLoadedMetadata(): Observable<void> {
     return this.loadedMetadataSubject;
+  }
+
+  get onEnded() {
+    return this.endedSubject;
   }
 
   get currentTime() {

@@ -106,13 +106,19 @@ describe('AudioTrack', () => {
     });
   });
 
-  describe('onLoadedMetadata', () => {
-    it('should expose onLoadedMetadata event as an Observable', done => {
-      audio.onLoadedMetadata.subscribe(() => {
-        done();
-      });
-
-      audioElementMock.onloadedmetadata(<Event>{});
+  it('should expose onLoadedMetadata event as an Observable', done => {
+    audio.onLoadedMetadata.subscribe(() => {
+      done();
     });
+
+    audioElementMock.onloadedmetadata(<Event>{});
+  });
+
+  it('should expose onEnded event as an Observable', done => {
+    audio.onEnded.subscribe(() => {
+      done();
+    });
+
+    audioElementMock.onended(<Event>{});
   });
 });

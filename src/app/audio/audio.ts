@@ -6,6 +6,7 @@ export interface Audio {
   onPause: Observable<boolean>;
   onTimeUpdate: Observable<number>;
   onLoadedMetadata: Observable<void>;
+  onEnded: Observable<void>;
 
   duration: number;
   currentTime: number;
