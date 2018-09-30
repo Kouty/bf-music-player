@@ -1,5 +1,6 @@
 import { TrackBarComponent } from './track-bar.component';
 import { PlaybackCommand } from './playback-command';
+import { PlaybackStateCommand } from './platyback-state-command';
 
 describe('TrackBarComponent', () => {
   let component: TrackBarComponent;
@@ -82,8 +83,8 @@ describe('TrackBarComponent', () => {
   });
 
   it('should emit random click event', done => {
-    component.playbackChanged.subscribe(command => {
-      expect(command).toBe(PlaybackCommand.random);
+    component.playbackStateChanged.subscribe(command => {
+      expect(command).toBe(PlaybackStateCommand.random);
       done();
     });
 

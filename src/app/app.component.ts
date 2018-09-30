@@ -58,6 +58,7 @@ export class AppComponent implements OnInit {
   private crossFade: any;
   private volume = 1;
   private neverPlayed = true;
+  private randomPlayback = false;
 
   constructor(private audioProvider: AudioProvider) {
     this.crossFade = { stop: () => null };
@@ -96,6 +97,10 @@ export class AppComponent implements OnInit {
   }
 
   switchTrack() {
+    if (this.randomPlayback) {
+      this.currentTrackIndex = Random.randIntExclusive(0, this.queue.length);
+    }
+
     let otherAudio: Audio;
     if (this.currentAudio === this.audioA) {
       this.currentAudio = this.audioB;
@@ -177,12 +182,13 @@ export class AppComponent implements OnInit {
       case PlaybackCommand.forward:
         trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
         break;
-      case PlaybackCommand.random:
-        trackIndex = Random.randIntExclusive(0, this.queue.length);
-        break;
     }
 
     this.currentTrackIndex = trackIndex;
     this.switchTrack();
+  }
+
+  onRandomClick() {
+    this.randomPlayback = !this.randomPlayback;
   }
 }

@@ -151,8 +151,17 @@ describe('AppComponent', () => {
   it('should go to a random song when user clicks random', () => {
     component.onSongSelected(1);
     spyOn(Random, 'randIntExclusive').and.returnValue(0);
-    component.onPlaybackChanged(PlaybackCommand.random);
+    component.onRandomClick();
+    component.onPlaybackChanged(PlaybackCommand.forward);
     expect(Random.randIntExclusive).toHaveBeenCalled();
     expect(audioMock.src).toBe(component.queue[0].src);
+  });
+
+  it('should toggle random', () => {
+    spyOn(Random, 'randIntExclusive').and.returnValue(0);
+    component.onRandomClick();
+    component.onRandomClick();
+    component.onPlaybackChanged(PlaybackCommand.backward);
+    expect(Random.randIntExclusive).not.toHaveBeenCalled();
   });
 });

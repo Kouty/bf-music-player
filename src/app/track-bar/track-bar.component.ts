@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TrackBarModel } from './track-bar.model';
 import { PlaybackCommand } from './playback-command';
+import { PlaybackStateCommand } from './platyback-state-command';
 
 @Component({
   selector: 'app-track-bar',
@@ -19,6 +20,8 @@ export class TrackBarComponent implements OnInit {
   volumeChanged = new EventEmitter<number>();
   @Output()
   playbackChanged = new EventEmitter<PlaybackCommand>();
+  @Output()
+  playbackStateChanged = new EventEmitter<PlaybackStateCommand>();
 
   private _sliderTime = 0;
   private _currentTime: number;
@@ -53,7 +56,7 @@ export class TrackBarComponent implements OnInit {
   }
 
   randomClick() {
-    this.playbackChanged.emit(PlaybackCommand.random);
+    this.playbackStateChanged.emit(PlaybackStateCommand.random);
   }
 
   set sliderTime(value) {
