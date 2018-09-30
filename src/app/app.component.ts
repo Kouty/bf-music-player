@@ -23,6 +23,12 @@ export class AppComponent implements OnInit {
       title: 'Summer',
       artist: 'Benjamin TISSOT',
       album: 'Bensound'
+    },
+    {
+      src: '    https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3\n',
+      title: 'A new beginning',
+      artist: 'Benjamin TISSOT',
+      album: 'Bensound'
     }
   ];
 

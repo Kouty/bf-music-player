@@ -10,5 +10,5 @@
   <div></div>
   <mat-slider [min]="0" [max]="1" [step]="0.01" [value]="model.volume" (input)="volumeChange($event)"></mat-slider>
   <div></div>
-  <button (click)="playPauseClick()">Play</button>
+  <button (click)="playPauseClick()">{{model.paused ? 'Play': 'Pause'}}</button>
 </div>
