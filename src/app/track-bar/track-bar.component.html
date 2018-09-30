@@ -1,6 +1,7 @@
 <div>
   <span>Paused: {{model.paused}}</span>
   <span>CrtTime: {{model.currentTime}}</span>
+  <span>Duration: {{model.duration}}</span>
   <div></div>
   <input type="range" min="0" [max]="model.duration" [value]="model.currentTime"/>
   <div></div>
