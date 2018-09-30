@@ -5,6 +5,7 @@ import { Audio } from './audio/audio';
 import { AudioProvider } from './audio/audio-provider';
 import * as TWEEN from '@tweenjs/tween.js';
 import { PlaybackCommand } from './track-bar/playback-command';
+import { Random } from './random/random';
 
 @Component({
   selector: 'app-root',
@@ -177,7 +178,7 @@ export class AppComponent implements OnInit {
         trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
         break;
       case PlaybackCommand.random:
-        trackIndex = 0;
+        trackIndex = Random.randIntExclusive(0, this.queue.length);
         break;
     }
 

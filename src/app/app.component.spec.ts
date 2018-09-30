@@ -2,6 +2,7 @@ import { AppComponent } from './app.component';
 import { Audio } from './audio/audio';
 import { Subject } from 'rxjs';
 import { PlaybackCommand } from './track-bar/playback-command';
+import { Random } from './random/random';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -144,6 +145,14 @@ describe('AppComponent', () => {
   it('should go to first song when going forward on last song', () => {
     component.onSongSelected(component.queue.length - 1);
     component.onPlaybackChanged(PlaybackCommand.forward);
+    expect(audioMock.src).toBe(component.queue[0].src);
+  });
+
+  it('should go to a random song when user clicks random', () => {
+    component.onSongSelected(1);
+    spyOn(Random, 'randIntExclusive').and.returnValue(0);
+    component.onPlaybackChanged(PlaybackCommand.random);
+    expect(Random.randIntExclusive).toHaveBeenCalled();
     expect(audioMock.src).toBe(component.queue[0].src);
   });
 });
