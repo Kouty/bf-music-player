@@ -5,8 +5,15 @@ describe('AudioTrack', () => {
   let audioElementMock;
 
   beforeEach(() => {
+    let src;
     audioElementMock = {
-      src: '',
+      set src(value) {
+        console.log('setter', value);
+        src = value;
+      },
+      get src() {
+        return src;
+      },
       currentTime: 0
     };
     audio = new HtmlAudio(<HTMLAudioElement>audioElementMock);
@@ -26,6 +33,16 @@ describe('AudioTrack', () => {
     audio.src = trackUrl;
 
     expect(audio.src).toEqual(trackUrl);
+  });
+
+  it('should not change src if the url did not change', () => {
+    const trackUrl = 'some track url';
+    const seSrcSpy = spyOnProperty(audioElementMock, 'src', 'set');
+    spyOnProperty(audioElementMock, 'src', 'get').and.returnValue(trackUrl);
+
+    audio.src = trackUrl;
+
+    expect(seSrcSpy).not.toHaveBeenCalled();
   });
 
   it('should provide a duration getter', () => {

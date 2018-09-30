@@ -22,7 +22,9 @@ export class HtmlAudio implements Audio {
   }
 
   set src(url: string) {
-    this.element.src = url;
+    if (url !== this.element.src) {
+      this.element.src = url;
+    }
   }
 
   get src(): string {
