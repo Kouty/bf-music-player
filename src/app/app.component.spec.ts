@@ -59,7 +59,12 @@ describe('AppComponent', () => {
     expect(component.trackBarModel.duration).toBe(audioMock.duration);
   });
 
-  xit('should play the selected song when the user tap on a track from the queue', ()=>{
+  it('should play the selected song when the user tap on a track from the queue', () => {
+    component.playCurrentTrack();
+    const firstTrackSrc = audioMock.src;
 
+    component.onSongSelected(1);
+
+    expect(audioMock.src).not.toBe(firstTrackSrc);
   });
 });

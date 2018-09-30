@@ -8,7 +8,6 @@ describe('AudioTrack', () => {
     let src;
     audioElementMock = {
       set src(value) {
-        console.log('setter', value);
         src = value;
       },
       get src() {

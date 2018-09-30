@@ -61,6 +61,7 @@ export class AppComponent implements OnInit {
 
   onSongSelected(index: number) {
     this.currentTrackIndex = index;
+    this.playCurrentTrack();
   }
 
   onPlayPauseClick(paused: boolean) {
