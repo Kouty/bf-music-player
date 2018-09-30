@@ -6,6 +6,7 @@ import { AudioProvider } from './audio/audio-provider';
 import * as TWEEN from '@tweenjs/tween.js';
 import { PlaybackCommand } from './track-bar/playback-command';
 import { Random } from './random/random';
+import { PlaybackStateCommand } from './track-bar/platyback-state-command';
 
 @Component({
   selector: 'app-root',
@@ -188,7 +189,11 @@ export class AppComponent implements OnInit {
     this.switchTrack();
   }
 
-  onRandomClick() {
-    this.randomPlayback = !this.randomPlayback;
+  onPlaybackStateChanged(state: PlaybackStateCommand) {
+    switch (state) {
+      case PlaybackStateCommand.random:
+        this.randomPlayback = !this.randomPlayback;
+        break;
+    }
   }
 }

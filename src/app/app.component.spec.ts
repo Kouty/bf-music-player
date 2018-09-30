@@ -3,6 +3,7 @@ import { Audio } from './audio/audio';
 import { Subject } from 'rxjs';
 import { PlaybackCommand } from './track-bar/playback-command';
 import { Random } from './random/random';
+import { PlaybackStateCommand } from './track-bar/platyback-state-command';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -151,7 +152,7 @@ describe('AppComponent', () => {
   it('should go to a random song when user clicks random', () => {
     component.onSongSelected(1);
     spyOn(Random, 'randIntExclusive').and.returnValue(0);
-    component.onRandomClick();
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
     component.onPlaybackChanged(PlaybackCommand.forward);
     expect(Random.randIntExclusive).toHaveBeenCalled();
     expect(audioMock.src).toBe(component.queue[0].src);
@@ -159,8 +160,8 @@ describe('AppComponent', () => {
 
   it('should toggle random', () => {
     spyOn(Random, 'randIntExclusive').and.returnValue(0);
-    component.onRandomClick();
-    component.onRandomClick();
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
     component.onPlaybackChanged(PlaybackCommand.backward);
     expect(Random.randIntExclusive).not.toHaveBeenCalled();
   });
