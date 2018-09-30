@@ -29,13 +29,15 @@ export class AppComponent implements OnInit {
   trackBarModelA: TrackBarModel = {
     paused: true,
     currentTime: 0,
-    duration: 0
+    duration: 0,
+    volume: 1
   };
 
   trackBarModelB: TrackBarModel = {
     paused: true,
     currentTime: 0,
-    duration: 0
+    duration: 0,
+    volume: 1
   };
   private _trackBarModel: TrackBarModel;
 
@@ -44,6 +46,7 @@ export class AppComponent implements OnInit {
   private currentAudio: Audio;
   private currentTrackIndex = 0;
   private crossFade: any;
+  private volume = 1;
 
   constructor(private audioProvider: AudioProvider) {
     this.crossFade = { stop: () => null };
@@ -97,13 +100,13 @@ export class AppComponent implements OnInit {
     this.currentAudio.play();
     otherAudio.play();
     this.crossFade.stop();
-    const toTween = { val: otherAudio.volume };
+    const toTween = { val: 1 };
     this.crossFade = new TWEEN.Tween(toTween)
       .to({ val: 0 }, 8000)
       .easing(TWEEN.Easing.Quadratic.Out)
       .onUpdate(() => {
-        this.currentAudio.volume = 1 - toTween.val;
-        otherAudio.volume = toTween.val;
+        this.currentAudio.volume = (1 - toTween.val) * this.volume;
+        otherAudio.volume = toTween.val * this.volume;
       })
       .onComplete(() => otherAudio.pause())
       .start();
@@ -134,5 +137,12 @@ export class AppComponent implements OnInit {
 
   onSeek(time) {
     this.currentAudio.currentTime = time;
+  }
+
+  onVolumeChanged(value) {
+    this.volume = value;
+    this.currentAudio.volume = value;
+    this.trackBarModelA.volume = value;
+    this.trackBarModelB.volume = value;
   }
 }

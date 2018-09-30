@@ -3,4 +3,5 @@
 <app-songs-queue [items]="queue" (songSelected)="onSongSelected($event)"></app-songs-queue>
 <app-track-bar [model]="trackBarModel" [currentTime]="trackBarModel.currentTime"
                (playPauseClicked)="onPlayPauseClick($event)" (timeChanged)="onSeek($event)"
+               (volumeChanged)="onVolumeChanged($event)"
 ></app-track-bar>

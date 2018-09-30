@@ -8,7 +8,8 @@ describe('TrackBarComponent', () => {
     component.model = {
       paused: true,
       currentTime: 0,
-      duration: 60
+      duration: 60,
+      volume: 1
     };
   });
 
@@ -49,5 +50,14 @@ describe('TrackBarComponent', () => {
     });
 
     component.sliderTime = 10;
+  });
+
+  it('should emit volumeChanged event', done => {
+    component.volumeChanged.subscribe(volume => {
+      expect(volume).toBe(0.5);
+      done();
+    });
+
+    component.volumeChange({ value: 0.5 });
   });
 });

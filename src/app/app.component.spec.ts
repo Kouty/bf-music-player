@@ -75,7 +75,7 @@ describe('AppComponent', () => {
     expect(audioMock.currentTime).toBe(13);
   });
 
-  describe('cross fade', () => {
+  describe('volume', () => {
     let audioMock2;
 
     beforeEach(() => {
@@ -101,6 +101,15 @@ describe('AppComponent', () => {
 
       component.onSongSelected(1);
       expect(audioMock2.play).toHaveBeenCalled();
+    });
+
+    it('should update the volume when the user changes the volume', () => {
+      const volume = 0.5;
+      component.onVolumeChanged(volume);
+
+      expect(audioMock.volume).toBe(0.5);
+      expect(component.trackBarModelA.volume).toBe(volume);
+      expect(component.trackBarModelB.volume).toBe(volume);
     });
   });
 });
