@@ -35,6 +35,14 @@ export class HtmlAudio implements Audio {
     return this.element.duration;
   }
 
+  get volume(): number {
+    return this.element.volume;
+  }
+
+  set volume(value) {
+    this.element.volume = value;
+  }
+
   get onTimeUpdate(): Observable<number> {
     return this.timeSubject;
   }

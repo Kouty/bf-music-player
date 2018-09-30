@@ -9,6 +9,7 @@ export interface Audio {
 
   duration: number;
   currentTime: number;
+  volume: number;
 
   play(): Promise<void>;
   pause(): void;

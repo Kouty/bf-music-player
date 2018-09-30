@@ -44,13 +44,21 @@ describe('AudioTrack', () => {
     expect(seSrcSpy).not.toHaveBeenCalled();
   });
 
+  it('should provide volume property', () => {
+    const value = 0.2;
+    audio.volume = value;
+
+    expect(audio.volume).toBe(value);
+    expect(audioElementMock.volume).toBe(value);
+  });
+
   it('should provide a duration getter', () => {
     audioElementMock.duration = 31;
 
     expect(audio.duration).toBe(31);
   });
 
-  it('should provide a currentTime getter and setter', ()=> {
+  it('should provide a currentTime getter and setter', () => {
     audio.currentTime = 12;
 
     expect(audio.currentTime).toBe(12);
@@ -78,7 +86,7 @@ describe('AudioTrack', () => {
 
   describe('onPause', () => {
     it('should expose pause event as an Observable', done => {
-      audio.onPause.subscribe((paused) => {
+      audio.onPause.subscribe(paused => {
         expect(paused).toBe(true);
         done();
       });
@@ -88,7 +96,7 @@ describe('AudioTrack', () => {
     });
 
     it('should emit paused false on play event', done => {
-      audio.onPause.subscribe((paused) => {
+      audio.onPause.subscribe(paused => {
         expect(paused).toBe(false);
         done();
       });
@@ -99,7 +107,7 @@ describe('AudioTrack', () => {
   });
 
   describe('onLoadedMetadata', () => {
-    it('should expose onLoadedMetadata event as an Observable', (done) => {
+    it('should expose onLoadedMetadata event as an Observable', done => {
       audio.onLoadedMetadata.subscribe(() => {
         done();
       });
