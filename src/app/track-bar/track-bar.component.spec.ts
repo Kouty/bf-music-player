@@ -1,4 +1,5 @@
 import { TrackBarComponent } from './track-bar.component';
+import { PlaybackCommand } from './playback-command';
 
 describe('TrackBarComponent', () => {
   let component: TrackBarComponent;
@@ -60,5 +61,32 @@ describe('TrackBarComponent', () => {
     });
 
     component.volumeChange({ value: 0.5 });
+  });
+
+  it('should emit backward event', done => {
+    component.playbackChanged.subscribe(command => {
+      expect(command).toBe(PlaybackCommand.backward);
+      done();
+    });
+
+    component.backwardClick();
+  });
+
+  it('should emit forward event', done => {
+    component.playbackChanged.subscribe(command => {
+      expect(command).toBe(PlaybackCommand.forward);
+      done();
+    });
+
+    component.forwardClick();
+  });
+
+  it('should emit random click event', done => {
+    component.playbackChanged.subscribe(command => {
+      expect(command).toBe(PlaybackCommand.random);
+      done();
+    });
+
+    component.randomClick();
   });
 });

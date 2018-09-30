@@ -1,6 +1,7 @@
 import { AppComponent } from './app.component';
 import { Audio } from './audio/audio';
 import { Subject } from 'rxjs';
+import { PlaybackCommand } from './track-bar/playback-command';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -121,5 +122,28 @@ describe('AppComponent', () => {
   it('should begin with the first trackData', () => {
     expect(audioMock.src).not.toBe('');
     expect(component.trackBarModel.trackData).not.toBe(null);
+  });
+
+  it('should go to next song on forward click', () => {
+    component.onPlaybackChanged(PlaybackCommand.forward);
+    expect(audioMock.src).toBe(component.queue[1].src);
+  });
+
+  it('should go to previous song on backward click', () => {
+    component.onSongSelected(1);
+    component.onPlaybackChanged(PlaybackCommand.backward);
+    expect(audioMock.src).toBe(component.queue[0].src);
+  });
+
+  it('should go to last song when going backward on first song', () => {
+    component.onSongSelected(0);
+    component.onPlaybackChanged(PlaybackCommand.backward);
+    expect(audioMock.src).toBe(component.queue[component.queue.length - 1].src);
+  });
+
+  it('should go to first song when going forward on last song', () => {
+    component.onSongSelected(component.queue.length - 1);
+    component.onPlaybackChanged(PlaybackCommand.forward);
+    expect(audioMock.src).toBe(component.queue[0].src);
   });
 });

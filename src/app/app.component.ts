@@ -4,6 +4,7 @@ import { TrackBarModel } from './track-bar/track-bar.model';
 import { Audio } from './audio/audio';
 import { AudioProvider } from './audio/audio-provider';
 import * as TWEEN from '@tweenjs/tween.js';
+import { PlaybackCommand } from './track-bar/playback-command';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
       album: 'Bensound'
     },
     {
-      src: '    https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3\n',
+      src: 'https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3',
       title: 'A new beginning',
       artist: 'Benjamin TISSOT',
       album: 'Bensound'
@@ -159,10 +160,28 @@ export class AppComponent implements OnInit {
     this.currentAudio.currentTime = time;
   }
 
-  onVolumeChanged(value) {
+  onVolumeChanged(value: number) {
     this.volume = value;
     this.currentAudio.volume = value;
     this.trackBarModelA.volume = value;
     this.trackBarModelB.volume = value;
+  }
+
+  onPlaybackChanged(command: PlaybackCommand) {
+    let trackIndex;
+    switch (command) {
+      case PlaybackCommand.backward:
+        trackIndex = (this.queue.length + ((this.currentTrackIndex - 1) % this.queue.length)) % this.queue.length;
+        break;
+      case PlaybackCommand.forward:
+        trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
+        break;
+      case PlaybackCommand.random:
+        trackIndex = 0;
+        break;
+    }
+
+    this.currentTrackIndex = trackIndex;
+    this.switchTrack();
   }
 }

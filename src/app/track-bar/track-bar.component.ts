@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TrackBarModel } from './track-bar.model';
+import { PlaybackCommand } from './playback-command';
 
 @Component({
   selector: 'app-track-bar',
@@ -16,16 +17,16 @@ export class TrackBarComponent implements OnInit {
   timeChanged = new EventEmitter<number>();
   @Output()
   volumeChanged = new EventEmitter<number>();
+  @Output()
+  playbackChanged = new EventEmitter<PlaybackCommand>();
 
   private _sliderTime = 0;
   private _currentTime: number;
   private _preventTimeChange = false;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   @Input()
   set currentTime(value) {
@@ -41,6 +42,18 @@ export class TrackBarComponent implements OnInit {
 
   playPauseClick() {
     this.playPauseClicked.emit(this.model.paused);
+  }
+
+  backwardClick() {
+    this.playbackChanged.emit(PlaybackCommand.backward);
+  }
+
+  forwardClick() {
+    this.playbackChanged.emit(PlaybackCommand.forward);
+  }
+
+  randomClick() {
+    this.playbackChanged.emit(PlaybackCommand.random);
   }
 
   set sliderTime(value) {

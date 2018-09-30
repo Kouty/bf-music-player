@@ -4,4 +4,5 @@
 <app-track-bar [model]="trackBarModel" [currentTime]="trackBarModel.currentTime"
                (playPauseClicked)="onPlayPauseClick($event)" (timeChanged)="onSeek($event)"
                (volumeChanged)="onVolumeChanged($event)"
+               (playbackChanged)="onPlaybackChanged($event)"
 ></app-track-bar>
