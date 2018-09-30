@@ -74,4 +74,33 @@ describe('AppComponent', () => {
 
     expect(audioMock.currentTime).toBe(13);
   });
+
+  describe('cross fade', () => {
+    let audioMock2;
+
+    beforeEach(() => {
+      let count = 0;
+      audioMock2 = {
+        src: '',
+        onPause: new Subject<boolean>(),
+        onTimeUpdate: new Subject<number>(),
+        onLoadedMetadata: new Subject<void>(),
+        play: jasmine.createSpy('play'),
+        pause: jasmine.createSpy('pause'),
+        seek: jasmine.createSpy('seek')
+      };
+      component = new AppComponent({
+        createAudio: () => <Audio>(count++ === 0 ? audioMock : audioMock2)
+      });
+      component.ngOnInit();
+    });
+
+    it('should be able to switch the audio to cross fade', () => {
+      component.onSongSelected(0);
+      expect(audioMock.play).toHaveBeenCalled();
+
+      component.onSongSelected(1);
+      expect(audioMock2.play).toHaveBeenCalled();
+    });
+  });
 });

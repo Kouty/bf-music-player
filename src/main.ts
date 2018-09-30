@@ -13,8 +13,8 @@ if (environment.production) {
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
 
-// function animate(time) {
-//   requestAnimationFrame(animate);
-//   TWEEN.update(time);
-// }
-// requestAnimationFrame(animate);
+function animate(time) {
+  requestAnimationFrame(animate);
+  TWEEN.update(time);
+}
+requestAnimationFrame(animate);

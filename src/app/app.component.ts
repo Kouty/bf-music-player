@@ -3,6 +3,7 @@ import { TrackData } from './track-data';
 import { TrackBarModel } from './track-bar/track-bar.model';
 import { Audio } from './audio/audio';
 import { AudioProvider } from './audio/audio-provider';
+import * as TWEEN from '@tweenjs/tween.js';
 
 @Component({
   selector: 'app-root',
@@ -25,46 +26,106 @@ export class AppComponent implements OnInit {
     }
   ];
 
-  trackBarModel: TrackBarModel = {
+  trackBarModelA: TrackBarModel = {
     paused: true,
     currentTime: 0,
     duration: 0
   };
 
+  trackBarModelB: TrackBarModel = {
+    paused: true,
+    currentTime: 0,
+    duration: 0
+  };
+  private _trackBarModel: TrackBarModel;
+
+  private audioA: Audio;
+  private audioB: Audio;
   private currentAudio: Audio;
   private currentTrackIndex = 0;
+  private crossFade: any;
 
   constructor(private audioProvider: AudioProvider) {
+    this.crossFade = { stop: () => null };
   }
 
   ngOnInit() {
-    this.currentAudio = this.audioProvider.createAudio();
-    this.currentAudio.onPause.subscribe(paused => {
-      this.trackBarModel.paused = paused;
+    this.audioA = this.audioProvider.createAudio();
+    this.audioA.src = this.queue[0].src;
+    this.currentAudio = this.audioA;
+    this._trackBarModel = this.trackBarModelA;
+    this.audioA.onPause.subscribe(paused => {
+      this.trackBarModelA.paused = paused;
     });
-    this.currentAudio.onTimeUpdate.subscribe(currentTime => {
-      this.trackBarModel.currentTime = currentTime;
+    this.audioA.onTimeUpdate.subscribe(currentTime => {
+      this.trackBarModelA.currentTime = currentTime;
     });
-    this.currentAudio.onLoadedMetadata.subscribe(() => {
-      this.trackBarModel.duration = this.currentAudio.duration;
+    this.audioA.onLoadedMetadata.subscribe(() => {
+      this.trackBarModelA.duration = this.audioA.duration;
+    });
+
+    this.audioB = this.audioProvider.createAudio();
+    this.audioB.onPause.subscribe(paused => {
+      this.trackBarModelB.paused = paused;
+    });
+    this.audioB.onTimeUpdate.subscribe(currentTime => {
+      this.trackBarModelB.currentTime = currentTime;
+    });
+    this.audioB.onLoadedMetadata.subscribe(() => {
+      this.trackBarModelB.duration = this.audioB.duration;
     });
   }
 
-  playCurrentTrack(): Promise<void> {
-    // const previousAudio = this.audioProvider.createAudio();
-    // previousAudio.src = this.currentAudio.src;
-    // previousAudio.currentTime = this.currentAudio.currentTime;
+  get trackBarModel() {
+    return this._trackBarModel;
+  }
+
+  switchTrack() {
+    let otherAudio: Audio;
+    if (this.currentAudio === this.audioA) {
+      this.currentAudio = this.audioB;
+      this._trackBarModel = this.trackBarModelB;
+      otherAudio = this.audioA;
+    } else {
+      this.currentAudio = this.audioA;
+      this._trackBarModel = this.trackBarModelA;
+      otherAudio = this.audioB;
+    }
     this.currentAudio.src = this.queue[this.currentTrackIndex].src;
-    return this.currentAudio.play();
+    this.currentAudio.currentTime = 0;
+
+    this.currentAudio.play();
+    otherAudio.play();
+    this.crossFade.stop();
+    const toTween = { val: otherAudio.volume };
+    this.crossFade = new TWEEN.Tween(toTween)
+      .to({ val: 0 }, 8000)
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .onUpdate(() => {
+        this.currentAudio.volume = 1 - toTween.val;
+        otherAudio.volume = toTween.val;
+      })
+      .onComplete(() => otherAudio.pause())
+      .start();
+  }
+
+  playCurrentTrack() {
+    this.currentAudio.play();
   }
 
   pauseCurrentTrack(): void {
-    this.currentAudio.pause();
+    this.audioA.pause();
+    this.audioB.pause();
+    this.crossFade.stop();
   }
 
   onSongSelected(index: number) {
-    this.currentTrackIndex = index;
-    this.playCurrentTrack();
+    if (index !== this.currentTrackIndex) {
+      this.currentTrackIndex = index;
+      this.switchTrack();
+    } else {
+      this.playCurrentTrack();
+    }
   }
 
   onPlayPauseClick(paused: boolean) {
