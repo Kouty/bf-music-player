@@ -1,6 +1,6 @@
 import { AppComponent } from './app.component';
 import { Audio } from './audio/audio';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 describe('AppComponent', () => {
   let component: AppComponent;

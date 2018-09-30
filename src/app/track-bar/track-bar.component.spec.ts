@@ -9,7 +9,8 @@ describe('TrackBarComponent', () => {
       paused: true,
       currentTime: 0,
       duration: 60,
-      volume: 1
+      volume: 1,
+      trackData: null
     };
   });
 
