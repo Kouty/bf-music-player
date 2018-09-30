@@ -165,4 +165,13 @@ describe('AppComponent', () => {
     component.onPlaybackChanged(PlaybackCommand.backward);
     expect(Random.randIntExclusive).not.toHaveBeenCalled();
   });
+
+  it('should play a random song if users click random before first play', () => {
+    spyOn(component, 'switchTrack');
+
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
+    component.playCurrentTrack();
+
+    expect(component.switchTrack).toHaveBeenCalled();
+  });
 });

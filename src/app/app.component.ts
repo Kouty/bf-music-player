@@ -140,8 +140,12 @@ export class AppComponent implements OnInit {
   }
 
   playCurrentTrack() {
+    if (this.neverPlayed && this.randomPlayback) {
+      this.switchTrack();
+    } else {
+      this.currentAudio.play();
+    }
     this.neverPlayed = false;
-    this.currentAudio.play();
   }
 
   pauseCurrentTrack(): void {
