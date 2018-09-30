@@ -1,4 +1,5 @@
 import 'hammerjs';
+import 'normalize.css';
 import * as TWEEN from '@tweenjs/tween.js';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

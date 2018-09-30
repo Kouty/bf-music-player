@@ -6,9 +6,11 @@
   <span>Random: {{model.random}}</span>
   <span>Track: {{model.trackData.title}}</span>
   <div></div>
+  <span>Time:</span>
   <mat-slider [min]="0" [max]="model.duration || 10" [(value)]="sliderTime"
               (mousedown)="sliderChangeStart()" (mouseup)="sliderChangeEnd()"></mat-slider>
   <div></div>
+  <span>Volume</span>
   <mat-slider [min]="0" [max]="1" [step]="0.01" [value]="model.volume" (input)="volumeChange($event)"></mat-slider>
   <div></div>
   <button (click)="playPauseClick()">{{model.paused ? 'Play': 'Pause'}}</button>

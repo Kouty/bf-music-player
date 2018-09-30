@@ -1,0 +1,7 @@
+.row {
+  border-bottom: 1px solid grey;
+}
+
+.row span {
+  padding: 5px;
+}
