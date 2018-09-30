@@ -1,4 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <h1>BitForce music player</h1>
 <app-songs-queue [items]="queue" (songSelected)="onSongSelected($event)"></app-songs-queue>
-<app-track-bar [model]="trackBarModel" (playPauseClicked)="onPlayPauseClick($event)"></app-track-bar>
+<app-track-bar [model]="trackBarModel" (playPauseClicked)="onPlayPauseClick($event)"
+               [currentTime]="trackBarModel.currentTime"
+></app-track-bar>

@@ -3,7 +3,8 @@
   <span>CrtTime: {{model.currentTime}}</span>
   <span>Duration: {{model.duration}}</span>
   <div></div>
-  <input type="range" min="0" [max]="model.duration" [value]="model.currentTime"/>
+  <mat-slider [min]="0" [max]="model.duration || 10" [(value)]="sliderTime"
+              (mousedown)="sliderChangeStart()" (mouseup)="sliderChangeEnd()"></mat-slider>
   <div></div>
   <button (click)="playPauseClick()">Play</button>
 </div>

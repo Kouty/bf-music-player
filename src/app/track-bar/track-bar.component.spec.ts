@@ -20,4 +20,25 @@ describe('TrackBarComponent', () => {
 
     component.playPauseClick();
   });
+
+  it('should update slider value when audio time changes', () => {
+    component.currentTime = 10;
+
+    expect(component.sliderTime).toBe(component.currentTime);
+  });
+
+  it('should NOT update slider value when a user is changing the slider value', () => {
+    component.sliderChangeStart();
+    component.currentTime = 10;
+
+    expect(component.sliderTime).toBe(0);
+  });
+
+  it('should restore slider update when the user stop interacting with the slider', () => {
+    component.sliderChangeStart();
+    component.sliderChangeEnd();
+    component.currentTime = 10;
+
+    expect(component.sliderTime).toBe(10);
+  });
 });

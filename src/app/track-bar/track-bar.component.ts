@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange } from '@angular/core';
 import { TrackBarModel } from './track-bar.model';
 
 @Component({
@@ -9,14 +9,50 @@ import { TrackBarModel } from './track-bar.model';
 export class TrackBarComponent implements OnInit {
   @Input()
   model: TrackBarModel;
+
   @Output()
   playPauseClicked = new EventEmitter<boolean>();
 
-  constructor() {}
+  private _sliderTime = 0;
+  private _currentTime: number;
+  private _preventTimeChange = false;
 
-  ngOnInit() {}
+  constructor() {
+  }
+
+  ngOnInit() {
+  }
+
+  @Input()
+  set currentTime(value) {
+    this._currentTime = value;
+    if (!this._preventTimeChange) {
+      this._sliderTime = value;
+    }
+  }
+
+  get currentTime() {
+    return this._currentTime;
+  }
 
   playPauseClick() {
     this.playPauseClicked.emit(this.model.paused);
+  }
+
+  set sliderTime(value) {
+    this._preventTimeChange = false;
+    this._sliderTime = value;
+  }
+
+  get sliderTime() {
+    return this._sliderTime;
+  }
+
+  sliderChangeStart() {
+    this._preventTimeChange = true;
+  }
+
+  sliderChangeEnd() {
+    this._preventTimeChange = false;
   }
 }
