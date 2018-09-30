@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
     this.audioA.src = this.queue[0].src;
     this.currentAudio = this.audioA;
     this._trackBarModel = this.trackBarModelA;
+    this._trackBarModel.trackData = this.queue[0];
     this.audioA.onPause.subscribe(paused => {
       this.trackBarModelA.paused = paused;
     });
@@ -97,7 +98,9 @@ export class AppComponent implements OnInit {
       this._trackBarModel = this.trackBarModelA;
       otherAudio = this.audioB;
     }
-    this.currentAudio.src = this.queue[this.currentTrackIndex].src;
+    const trackData = this.queue[this.currentTrackIndex];
+    this._trackBarModel.trackData = trackData;
+    this.currentAudio.src = trackData.src;
     this.currentAudio.currentTime = 0;
 
     this.currentAudio.play();

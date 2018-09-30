@@ -103,6 +103,11 @@ describe('AppComponent', () => {
       expect(audioMock2.play).toHaveBeenCalled();
     });
 
+    it('should update trackData when switching', () => {
+      component.onSongSelected(1);
+      expect(component.trackBarModel.trackData).not.toBe(null);
+    });
+
     it('should update the volume when the user changes the volume', () => {
       const volume = 0.5;
       component.onVolumeChanged(volume);
@@ -111,5 +116,10 @@ describe('AppComponent', () => {
       expect(component.trackBarModelA.volume).toBe(volume);
       expect(component.trackBarModelB.volume).toBe(volume);
     });
+  });
+
+  it('should begin with the first trackData', () => {
+    expect(audioMock.src).not.toBe('');
+    expect(component.trackBarModel.trackData).not.toBe(null);
   });
 });
