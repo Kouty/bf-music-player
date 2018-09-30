@@ -15,6 +15,7 @@ describe('AppComponent', () => {
       onPause: new Subject<boolean>(),
       onTimeUpdate: new Subject<number>(),
       onLoadedMetadata: new Subject<void>(),
+      onEnded: new Subject<void>(),
       play: jasmine.createSpy('play'),
       pause: jasmine.createSpy('pause'),
       seek: jasmine.createSpy('seek')
@@ -88,6 +89,7 @@ describe('AppComponent', () => {
         onPause: new Subject<boolean>(),
         onTimeUpdate: new Subject<number>(),
         onLoadedMetadata: new Subject<void>(),
+        onEnded: new Subject<void>(),
         play: jasmine.createSpy('play'),
         pause: jasmine.createSpy('pause'),
         seek: jasmine.createSpy('seek')
@@ -187,5 +189,14 @@ describe('AppComponent', () => {
     component.switchTrack();
 
     expect(component.trackBarModel.random).toBe(true);
+  });
+
+  it('should play next song on current song ended', () => {
+    spyOn(component, 'onPlaybackChanged');
+
+    component.playCurrentTrack();
+    audioMock.onEnded.next();
+
+    expect(component.onPlaybackChanged).toHaveBeenCalledWith(PlaybackCommand.forward);
   });
 });

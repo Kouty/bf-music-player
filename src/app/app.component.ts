@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
   private currentTrackIndex = 0;
   private crossFade: any;
   private volume = 1;
-  private neverPlayed = true;
+  private noCrossFade = true;
   private randomPlayback = false;
 
   constructor(private audioProvider: AudioProvider) {
@@ -82,6 +82,11 @@ export class AppComponent implements OnInit {
     this.audioA.onLoadedMetadata.subscribe(() => {
       this.trackBarModelA.duration = this.audioA.duration;
     });
+    const forward = () => {
+      this.noCrossFade = true;
+      this.onPlaybackChanged(PlaybackCommand.forward);
+    };
+    this.audioA.onEnded.subscribe(forward);
 
     this.audioB = this.audioProvider.createAudio();
     this.audioB.onPause.subscribe(paused => {
@@ -93,6 +98,7 @@ export class AppComponent implements OnInit {
     this.audioB.onLoadedMetadata.subscribe(() => {
       this.trackBarModelB.duration = this.audioB.duration;
     });
+    this.audioB.onEnded.subscribe(forward);
   }
 
   get trackBarModel() {
@@ -123,7 +129,7 @@ export class AppComponent implements OnInit {
     otherAudio.play();
     this.crossFade.stop();
 
-    if (!this.neverPlayed) {
+    if (!this.noCrossFade) {
       const toTween = { val: 1 };
       this.crossFade = new TWEEN.Tween(toTween)
         .to({ val: 0 }, 8000)
@@ -135,19 +141,19 @@ export class AppComponent implements OnInit {
         .onComplete(() => otherAudio.pause())
         .start();
     } else {
-      this.neverPlayed = false;
+      this.noCrossFade = false;
       this.currentAudio.volume = this.volume;
       otherAudio.volume = 0;
     }
   }
 
   playCurrentTrack() {
-    if (this.neverPlayed && this.randomPlayback) {
+    if (this.noCrossFade && this.randomPlayback) {
       this.switchTrack();
     } else {
       this.currentAudio.play();
     }
-    this.neverPlayed = false;
+    this.noCrossFade = false;
   }
 
   pauseCurrentTrack(): void {
