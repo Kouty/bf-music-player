@@ -13,7 +13,8 @@ describe('AppComponent', () => {
       onTimeUpdate: new Subject<number>(),
       onLoadedMetadata: new Subject<void>(),
       play: jasmine.createSpy('play'),
-      pause: jasmine.createSpy('pause')
+      pause: jasmine.createSpy('pause'),
+      seek: jasmine.createSpy('seek')
     };
     component = new AppComponent({
       createAudio: () => <Audio>audioMock
@@ -66,5 +67,11 @@ describe('AppComponent', () => {
     component.onSongSelected(1);
 
     expect(audioMock.src).not.toBe(firstTrackSrc);
+  });
+
+  it('should seek the current audio when the user seeks the audio', () => {
+    component.onSeek(13);
+
+    expect(audioMock.currentTime).toBe(13);
   });
 });

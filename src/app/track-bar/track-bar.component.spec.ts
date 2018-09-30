@@ -41,4 +41,13 @@ describe('TrackBarComponent', () => {
 
     expect(component.sliderTime).toBe(10);
   });
+
+  it('should emit timeChanged event when the user changes the slider value', done => {
+    component.timeChanged.subscribe(sliderTime => {
+      expect(sliderTime).toBe(component.sliderTime);
+      done();
+    });
+
+    component.sliderTime = 10;
+  });
 });

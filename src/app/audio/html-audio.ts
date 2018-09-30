@@ -47,6 +47,14 @@ export class HtmlAudio implements Audio {
     return this.loadedMetadataSubject;
   }
 
+  get currentTime() {
+    return this.element.currentTime;
+  }
+
+  set currentTime(value) {
+    this.element.currentTime = value;
+  }
+
   play() {
     return this.element.play();
   }

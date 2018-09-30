@@ -8,6 +8,7 @@ export interface Audio {
   onLoadedMetadata: Observable<void>;
 
   duration: number;
+  currentTime: number;
 
   play(): Promise<void>;
   pause(): void;

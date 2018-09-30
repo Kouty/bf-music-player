@@ -67,4 +67,8 @@ export class AppComponent implements OnInit {
   onPlayPauseClick(paused: boolean) {
     paused ? this.playCurrentTrack() : this.pauseCurrentTrack();
   }
+
+  onSeek(time) {
+    this.currentAudio.currentTime = time;
+  }
 }

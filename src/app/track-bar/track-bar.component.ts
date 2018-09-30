@@ -12,6 +12,8 @@ export class TrackBarComponent implements OnInit {
 
   @Output()
   playPauseClicked = new EventEmitter<boolean>();
+  @Output()
+  timeChanged = new EventEmitter<number>();
 
   private _sliderTime = 0;
   private _currentTime: number;
@@ -42,6 +44,7 @@ export class TrackBarComponent implements OnInit {
   set sliderTime(value) {
     this._preventTimeChange = false;
     this._sliderTime = value;
+    this.timeChanged.next(value);
   }
 
   get sliderTime() {

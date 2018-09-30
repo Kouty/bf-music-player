@@ -50,6 +50,13 @@ describe('AudioTrack', () => {
     expect(audio.duration).toBe(31);
   });
 
+  it('should provide a currentTime getter and setter', ()=> {
+    audio.currentTime = 12;
+
+    expect(audio.currentTime).toBe(12);
+    expect(audioElementMock.currentTime).toBe(12);
+  });
+
   describe('ontimeupdate ', () => {
     it('should register to ontimeupdate', () => {
       expect(audioElementMock.ontimeupdate).not.toBe(undefined);
