@@ -16,5 +16,5 @@
   <button (click)="playPauseClick()">{{model.paused ? 'Play': 'Pause'}}</button>
   <button (click)="backwardClick()">Back</button>
   <button (click)="forwardClick()">Forward</button>
-  <button (click)="randomClick()">Random</button>
+  <button (click)="randomClick()">{{model.random ? 'No random': 'Random'}}</button>
 </div>
