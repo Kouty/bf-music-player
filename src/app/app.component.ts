@@ -51,6 +51,9 @@ export class AppComponent implements OnInit {
   }
 
   playCurrentTrack(): Promise<void> {
+    // const previousAudio = this.audioProvider.createAudio();
+    // previousAudio.src = this.currentAudio.src;
+    // previousAudio.currentTime = this.currentAudio.currentTime;
     this.currentAudio.src = this.queue[this.currentTrackIndex].src;
     return this.currentAudio.play();
   }
