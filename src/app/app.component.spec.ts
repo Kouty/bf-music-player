@@ -11,6 +11,7 @@ describe('AppComponent', () => {
       src: '',
       onPause: new Subject<boolean>(),
       onTimeUpdate: new Subject<number>(),
+      onLoadedMetadata: new Subject<void>(),
       play: jasmine.createSpy('play'),
       pause: jasmine.createSpy('pause')
     };
@@ -45,7 +46,7 @@ describe('AppComponent', () => {
 
   it('should play current track', () => {
     component.ngOnInit();
-    component.playTrack();
+    component.playCurrentTrack();
 
     expect(audioMock.src).not.toBe('');
     expect(audioMock.play).toHaveBeenCalled();
@@ -65,5 +66,14 @@ describe('AppComponent', () => {
     component.onPlayPauseClick(false);
 
     expect(audioMock.pause).toHaveBeenCalled();
+  });
+
+  it('should update track-bar model duration on audio metadata loaded', () => {
+    component.ngOnInit();
+
+    audioMock.duration = 31;
+    audioMock.onLoadedMetadata.next();
+
+    expect(component.trackBarModel.duration).toBe(audioMock.duration);
   });
 });

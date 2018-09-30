@@ -4,6 +4,7 @@ import { Audio } from './audio';
 export class HtmlAudio implements Audio {
   private timeSubject = new Subject<number>();
   private pauseSubject = new Subject<boolean>();
+  private loadedMetadataSubject = new Subject<void>();
 
   constructor(private element: HTMLAudioElement) {
     this.element.ontimeupdate = () => {
@@ -14,6 +15,10 @@ export class HtmlAudio implements Audio {
     };
     this.element.onpause = emitPauseState;
     this.element.onplay = emitPauseState;
+
+    this.element.onloadedmetadata = () => {
+      this.loadedMetadataSubject.next();
+    };
   }
 
   set src(url: string) {
@@ -24,12 +29,20 @@ export class HtmlAudio implements Audio {
     return this.element.src;
   }
 
+  get duration(): number {
+    return this.element.duration;
+  }
+
   get onTimeUpdate(): Observable<number> {
     return this.timeSubject;
   }
 
   get onPause(): Observable<boolean> {
     return this.pauseSubject;
+  }
+
+  get onLoadedMetadata(): Observable<void> {
+    return this.loadedMetadataSubject;
   }
 
   play() {

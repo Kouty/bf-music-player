@@ -8,7 +8,7 @@ describe('TrackBarComponent', () => {
     component.model = {
       paused: true,
       currentTime: 0,
-      endTime: 60
+      duration: 60
     };
   });
 

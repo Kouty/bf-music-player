@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   trackBarModel: TrackBarModel = {
     paused: true,
     currentTime: 0,
-    endTime: 60
+    duration: 0
   };
 
   private currentAudio: Audio;
@@ -45,16 +45,17 @@ export class AppComponent implements OnInit {
     this.currentAudio.onTimeUpdate.subscribe(currentTime => {
       this.trackBarModel.currentTime = currentTime;
     });
+    this.currentAudio.onLoadedMetadata.subscribe(() => {
+      this.trackBarModel.duration = this.currentAudio.duration;
+    });
   }
 
-  playTrack(): Promise<void> {
-    if (this.currentAudio.src !== this.queue[this.currentTrackIndex].src) {
-      this.currentAudio.src = this.queue[this.currentTrackIndex].src;
-    }
+  playCurrentTrack(): Promise<void> {
+    this.currentAudio.src = this.queue[this.currentTrackIndex].src;
     return this.currentAudio.play();
   }
 
-  pauseTrack(): void {
+  pauseCurrentTrack(): void {
     this.currentAudio.pause();
   }
 
@@ -63,6 +64,6 @@ export class AppComponent implements OnInit {
   }
 
   onPlayPauseClick(paused: boolean) {
-    paused ? this.playTrack() : this.pauseTrack();
+    paused ? this.playCurrentTrack() : this.pauseCurrentTrack();
   }
 }

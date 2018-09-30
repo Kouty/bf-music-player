@@ -28,6 +28,12 @@ describe('AudioTrack', () => {
     expect(audio.src).toEqual(trackUrl);
   });
 
+  it('should provide a duration getter', () => {
+    audioElementMock.duration = 31;
+
+    expect(audio.duration).toBe(31);
+  });
+
   describe('ontimeupdate ', () => {
     it('should register to ontimeupdate', () => {
       expect(audioElementMock.ontimeupdate).not.toBe(undefined);
@@ -66,6 +72,16 @@ describe('AudioTrack', () => {
 
       audioElementMock.paused = false;
       audioElementMock.onplay(<Event>{});
+    });
+  });
+
+  describe('onLoadedMetadata', () => {
+    it('should expose onLoadedMetadata event as an Observable', (done) => {
+      audio.onLoadedMetadata.subscribe(() => {
+        done();
+      });
+
+      audioElementMock.onloadedmetadata(<Event>{});
     });
   });
 });

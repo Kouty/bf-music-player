@@ -1,5 +1,5 @@
 export interface TrackBarModel {
   paused: boolean;
   currentTime: number;
-  endTime: number;
+  duration: number;
 }
