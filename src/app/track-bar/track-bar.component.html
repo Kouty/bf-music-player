@@ -13,8 +13,16 @@
   <span>Volume</span>
   <mat-slider [min]="0" [max]="1" [step]="0.01" [value]="model.volume" (input)="volumeChange($event)"></mat-slider>
   <div></div>
-  <button (click)="playPauseClick()">{{model.paused ? 'Play': 'Pause'}}</button>
-  <button (click)="backwardClick()">Back</button>
-  <button (click)="forwardClick()">Forward</button>
-  <button (click)="randomClick()">{{model.random ? 'No random': 'Random'}}</button>
+  <button mat-icon-button class="random" [class.active]="model.random" (click)="randomClick()">
+    <mat-icon>shuffle</mat-icon>
+  </button>
+  <button mat-icon-button (click)="backwardClick()">
+    <mat-icon>fast_rewind</mat-icon>
+  </button>
+  <button mat-icon-button (click)="playPauseClick()">
+    <mat-icon>play_circle_outline</mat-icon>
+  </button>
+  <button mat-icon-button (click)="forwardClick()">
+    <mat-icon>fast_forward</mat-icon>
+  </button>
 </div>
