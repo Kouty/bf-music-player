@@ -20,7 +20,8 @@
     <mat-icon>fast_rewind</mat-icon>
   </button>
   <button mat-icon-button (click)="playPauseClick()">
-    <mat-icon>play_circle_outline</mat-icon>
+    <mat-icon *ngIf="model.paused">play_circle_outline</mat-icon>
+    <mat-icon *ngIf="!model.paused">pause_circle_outline</mat-icon>
   </button>
   <button mat-icon-button (click)="forwardClick()">
     <mat-icon>fast_forward</mat-icon>
