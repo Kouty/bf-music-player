@@ -13,6 +13,8 @@ export class SongsQueueComponent implements OnInit {
   @Output()
   songSelected = new EventEmitter<number>();
 
+  columnsToDisplay = ['title', 'artist', 'album'];
+
   constructor() {
   }
 
@@ -20,6 +22,7 @@ export class SongsQueueComponent implements OnInit {
   }
 
   selectSong(index: number) {
+    console.log('row', index);
     this.songSelected.emit(index);
   }
 }

@@ -1,10 +1,10 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <h1>BitForce music player</h1>
-<app-songs-queue [items]="queue" (songSelected)="onSongSelected($event)"></app-songs-queue>
-<hr>
 <app-track-bar [model]="trackBarModel" [currentTime]="trackBarModel.currentTime"
                (playPauseClicked)="onPlayPauseClick($event)" (timeChanged)="onSeek($event)"
                (volumeChanged)="onVolumeChanged($event)"
                (playbackChanged)="onPlaybackChanged($event)"
                (playbackStateChanged)="onPlaybackStateChanged($event)"
 ></app-track-bar>
+<app-songs-queue [items]="queue" (songSelected)="onSongSelected($event)"></app-songs-queue>
+
