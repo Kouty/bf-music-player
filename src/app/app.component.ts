@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TrackData } from './track-data';
+import { TrackData, TRACKS } from './track-data';
 import { TrackBarModel } from './track-bar/track-bar.model';
 import { Audio } from './audio/audio';
 import { AudioProvider } from './audio/audio-provider';
@@ -14,26 +14,7 @@ import { PlaybackStateCommand } from './track-bar/platyback-state-command';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  queue: TrackData[] = [
-    {
-      src: 'https://www.bensound.com/bensound-music/bensound-ukulele.mp3',
-      title: 'Ukulele',
-      artist: 'Benjamin TISSOT',
-      album: 'Bensound'
-    },
-    {
-      src: 'https://www.bensound.com/bensound-music/bensound-summer.mp3',
-      title: 'Summer',
-      artist: 'Benjamin TISSOT',
-      album: 'Bensound'
-    },
-    {
-      src: 'https://www.bensound.com/bensound-music/bensound-anewbeginning.mp3',
-      title: 'A new beginning',
-      artist: 'Benjamin TISSOT',
-      album: 'Bensound'
-    }
-  ];
+  queue: TrackData[] = TRACKS;
 
   trackBarModelA: TrackBarModel = {
     paused: true,

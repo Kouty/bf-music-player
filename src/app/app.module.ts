@@ -1,6 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { MatSliderModule, MatTableModule, MatButtonModule, MatIconModule } from '@angular/material';
+import {
+  MatSliderModule,
+  MatTableModule,
+  MatButtonModule,
+  MatIconModule,
+  MatSidenavModule,
+  MatToolbarModule
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,7 +17,16 @@ import { AudioProvider } from './audio/audio-provider';
 
 @NgModule({
   declarations: [AppComponent, SongsQueueComponent, TrackBarComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, MatSliderModule, MatTableModule, MatButtonModule, MatIconModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatToolbarModule
+  ],
   providers: [AudioProvider],
   bootstrap: [AppComponent]
 })
