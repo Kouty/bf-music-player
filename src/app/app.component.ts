@@ -130,13 +130,13 @@ export class AppComponent implements OnInit {
     this.crossFade.stop();
 
     if (!this.noCrossFade) {
-      const toTween = { val: 1 };
+      const toTween = { current: 0, other: this.otherAudio.volume };
       this.crossFade = new TWEEN.Tween(toTween)
-        .to({ val: 0 }, 8000)
+        .to({ current: 1, other: 0 }, 8000)
         .easing(TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
-          this.currentAudio.volume = (1 - toTween.val) * this.volume;
-          otherAudio.volume = toTween.val * this.volume;
+          this.currentAudio.volume = toTween.current * this.volume;
+          otherAudio.volume = toTween.other * this.volume;
         })
         .onComplete(() => otherAudio.pause())
         .start();
