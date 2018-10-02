@@ -18,7 +18,8 @@ describe('AppComponent', () => {
       onEnded: new Subject<void>(),
       play: jasmine.createSpy('play'),
       pause: jasmine.createSpy('pause'),
-      seek: jasmine.createSpy('seek')
+      seek: jasmine.createSpy('seek'),
+      paused: true
     };
     component = new AppComponent({
       createAudio: () => <Audio>audioMock
@@ -92,7 +93,8 @@ describe('AppComponent', () => {
         onEnded: new Subject<void>(),
         play: jasmine.createSpy('play'),
         pause: jasmine.createSpy('pause'),
-        seek: jasmine.createSpy('seek')
+        seek: jasmine.createSpy('seek'),
+        paused: true
       };
       component = new AppComponent({
         createAudio: () => <Audio>(count++ === 0 ? audioMock : audioMock2)
@@ -120,6 +122,27 @@ describe('AppComponent', () => {
       expect(audioMock.volume).toBe(0.5);
       expect(component.trackBarModelA.volume).toBe(volume);
       expect(component.trackBarModelB.volume).toBe(volume);
+    });
+
+    it('should restore the volume when stopping the cross fade', () => {
+      audioMock.volume = 0.2;
+      audioMock2.volume = 0.8;
+
+      component.pauseCurrentTrack();
+
+      expect(audioMock.volume).toBe(1);
+      expect(audioMock2.volume).toBe(0);
+    });
+
+    it('should restore the volume when stopping the cross fade and track are swapped', () => {
+      component.switchTrack();
+      audioMock.volume = 0.2;
+      audioMock2.volume = 0.8;
+
+      component.pauseCurrentTrack();
+
+      expect(audioMock.volume).toBe(0);
+      expect(audioMock2.volume).toBe(1);
     });
   });
 

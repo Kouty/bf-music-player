@@ -160,6 +160,12 @@ export class AppComponent implements OnInit {
     this.audioA.pause();
     this.audioB.pause();
     this.crossFade.stop();
+    this.currentAudio.volume = this.volume;
+    this.otherAudio.volume = 0;
+  }
+
+  get otherAudio() {
+    return this.currentAudio === this.audioA ? this.audioB : this.audioA;
   }
 
   onSongSelected(index: number) {
