@@ -5,3 +5,7 @@ table {
 .mat-row {
   cursor: pointer;
 }
+
+.selected {
+  background: #303030;
+}

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { SongsQueueItem } from './songs-queue-item';
 
-
 @Component({
   selector: 'app-songs-queue',
   templateUrl: './songs-queue.component.html',
@@ -10,16 +9,18 @@ import { SongsQueueItem } from './songs-queue-item';
 export class SongsQueueComponent implements OnInit {
   @Input()
   items: SongsQueueItem[];
+  @Input()
+  selectedIndex: number;
+  @Input()
+  playing: boolean;
   @Output()
   songSelected = new EventEmitter<number>();
 
-  columnsToDisplay = ['title', 'artist', 'album'];
+  columnsToDisplay = ['playState', 'title', 'artist', 'album'];
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   selectSong(index: number) {
     this.songSelected.emit(index);

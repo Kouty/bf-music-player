@@ -199,4 +199,12 @@ describe('AppComponent', () => {
 
     expect(component.onPlaybackChanged).toHaveBeenCalledWith(PlaybackCommand.forward);
   });
+
+  it('should tell if the current song is playing', () => {
+    audioMock.paused = false;
+    expect(component.playing).toBe(true);
+
+    audioMock.paused = true;
+    expect(component.playing).toBe(false);
+  });
 });

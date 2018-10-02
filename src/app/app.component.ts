@@ -53,11 +53,11 @@ export class AppComponent implements OnInit {
     random: false
   };
   private _trackBarModel: TrackBarModel;
+  public currentTrackIndex = 0;
 
   private audioA: Audio;
   private audioB: Audio;
   private currentAudio: Audio;
-  private currentTrackIndex = 0;
   private crossFade: any;
   private volume = 1;
   private noCrossFade = true;
@@ -167,7 +167,7 @@ export class AppComponent implements OnInit {
       this.currentTrackIndex = index;
       this.switchTrack();
     } else {
-      this.playCurrentTrack();
+      this.playing ? this.pauseCurrentTrack() : this.playCurrentTrack();
     }
   }
 
@@ -210,5 +210,9 @@ export class AppComponent implements OnInit {
 
     this.trackBarModelA.random = this.randomPlayback;
     this.trackBarModelB.random = this.randomPlayback;
+  }
+
+  get playing(): boolean {
+    return !this.currentAudio.paused;
   }
 }

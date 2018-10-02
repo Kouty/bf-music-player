@@ -6,5 +6,7 @@
                (playbackChanged)="onPlaybackChanged($event)"
                (playbackStateChanged)="onPlaybackStateChanged($event)"
 ></app-track-bar>
-<app-songs-queue [items]="queue" (songSelected)="onSongSelected($event)"></app-songs-queue>
+<app-songs-queue [items]="queue" [selectedIndex]="currentTrackIndex" [playing]="playing"
+                 (playToggled)="onQueueItemPlayToggled($event)"
+                 (songSelected)="onSongSelected($event)"></app-songs-queue>
 

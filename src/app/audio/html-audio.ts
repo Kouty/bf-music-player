@@ -70,6 +70,10 @@ export class HtmlAudio implements Audio {
     this.element.currentTime = value;
   }
 
+  get paused() {
+    return this.element.paused;
+  }
+
   play() {
     return this.element.play();
   }
