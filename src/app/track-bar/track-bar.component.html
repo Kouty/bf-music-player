@@ -1,29 +1,46 @@
 <div>
-  <span>Paused: {{model.paused}}</span>
-  <span>CrtTime: {{model.currentTime}}</span>
-  <span>Duration: {{model.duration}}</span>
-  <span>Volume: {{model.volume}}</span>
-  <span>Random: {{model.random}}</span>
-  <span>Track: {{model.trackData.title}}</span>
-  <div></div>
-  <span>Time:</span>
-  <mat-slider [min]="0" [max]="model.duration || 10" [(value)]="sliderTime"
-              (mousedown)="sliderChangeStart()" (mouseup)="sliderChangeEnd()"></mat-slider>
-  <div></div>
-  <span>Volume</span>
-  <mat-slider [min]="0" [max]="1" [step]="0.01" [value]="model.volume" (input)="volumeChange($event)"></mat-slider>
-  <div></div>
-  <button mat-icon-button class="random" [class.active]="model.random" (click)="randomClick()">
-    <mat-icon>shuffle</mat-icon>
-  </button>
-  <button mat-icon-button (click)="backwardClick()">
-    <mat-icon>fast_rewind</mat-icon>
-  </button>
-  <button mat-icon-button (click)="playPauseClick()">
-    <mat-icon *ngIf="model.paused">play_circle_outline</mat-icon>
-    <mat-icon *ngIf="!model.paused">pause_circle_outline</mat-icon>
-  </button>
-  <button mat-icon-button (click)="forwardClick()">
-    <mat-icon>fast_forward</mat-icon>
-  </button>
+  <!--<span>Paused: {{model.paused}}</span>-->
+  <!--<span>CrtTime: {{model.currentTime}}</span>-->
+  <!--<span>Duration: {{model.duration}}</span>-->
+  <!--<span>Volume: {{model.volume}}</span>-->
+  <!--<span>Random: {{model.random}}</span>-->
+  <!--<span>Track: {{model.trackData.title}}</span>-->
+  <!--<div></div>-->
+  <div class="container">
+    <div class="left">A</div>
+
+    <div class="center1 controls">
+      <button mat-icon-button class="random" [class.active]="model.random" (click)="randomClick()">
+        <mat-icon>shuffle</mat-icon>
+      </button>
+      <button mat-icon-button (click)="backwardClick()">
+        <mat-icon>fast_rewind</mat-icon>
+      </button>
+      <button mat-icon-button (click)="playPauseClick()" class="play-pause">
+        <mat-icon *ngIf="model.paused">play_circle_outline</mat-icon>
+        <mat-icon *ngIf="!model.paused">pause_circle_outline</mat-icon>
+      </button>
+      <button mat-icon-button (click)="forwardClick()">
+        <mat-icon>fast_forward</mat-icon>
+      </button>
+      <button mat-icon-button class="repeat">
+        <mat-icon>repeat</mat-icon>
+      </button>
+    </div>
+    <div class="center2 time">
+      <span>{{model.currentTime*1000 | date:"m:ss" }}</span>
+      <mat-slider [min]="0" [max]="model.duration || 10" [(value)]="sliderTime" class="time-slider"
+                  (mousedown)="sliderChangeStart()" (mouseup)="sliderChangeEnd()"></mat-slider>
+      <span>{{model.duration*1000 | date:"m:ss"}}</span>
+    </div>
+
+    <div class="right volume">
+      <button mat-icon-button>
+        <mat-icon>volume_up</mat-icon>
+      </button>
+      <mat-slider class="volume-slider" [min]="0" [max]="1" [step]="0.01" [value]="model.volume"
+                  (input)="volumeChange($event)"></mat-slider>
+    </div>
+
+  </div>
 </div>

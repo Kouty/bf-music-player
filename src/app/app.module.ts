@@ -5,8 +5,8 @@ import {
   MatTableModule,
   MatButtonModule,
   MatIconModule,
-  MatSidenavModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatGridListModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -24,8 +24,8 @@ import { AudioProvider } from './audio/audio-provider';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
-    MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatGridListModule
   ],
   providers: [AudioProvider],
   bootstrap: [AppComponent]

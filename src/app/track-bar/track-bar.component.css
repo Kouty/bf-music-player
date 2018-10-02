@@ -6,6 +6,69 @@ span {
   color: grey;
 }
 
+.repeat {
+  color: grey;
+}
+
 .active {
   color: inherit;
 }
+
+.play-pause .mat-icon {
+  font-size: 36px;
+  height: 36px;
+  width: 36px;
+  line-height: 36px;
+}
+
+.controls {
+  text-align: center;
+}
+
+.time {
+  text-align: center;
+}
+
+.time-slider {
+  width: 50%;
+}
+
+.volume-slider {
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 3fr 14fr 7fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.left {
+  grid-column-start: 1;
+  grid-column-end: 1;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  place-self: center;
+}
+
+.center1 {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+}
+
+.center2 {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 2;
+}
+
+.right {
+  grid-column-start: 3;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  place-self: center;
+}
+
