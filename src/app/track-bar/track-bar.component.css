@@ -43,7 +43,7 @@
 }
 
 .preview .info {
-  padding-left: 3px;
+  place-self: center;
 }
 
 .preview .title {
