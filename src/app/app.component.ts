@@ -54,7 +54,6 @@ export class AppComponent implements OnInit {
     const audioB = this.audioProvider.createAudio();
     this.crtAudio = new AOrB(audioA, audioB);
 
-    audioA.src = this.queue[0].src;
     this.crtTrackBarModel.current.trackData = this.queue[0];
     audioA.onPause.subscribe(paused => {
       this.crtTrackBarModel.a.paused = paused;
