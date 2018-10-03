@@ -161,16 +161,19 @@ describe('AppComponent', () => {
 
   it('should go to previous song on backward click', () => {
     component.onSongSelected(1);
+    component.onSongSelected(3);
     component.onPlaybackChanged(PlaybackCommand.backward);
 
-    expect(audioMock.src).toBe(component.queue[0].src);
+    expect(component.currentTrackIndex).toBe(1);
   });
 
-  it('should go to last song when going backward on first song', () => {
-    component.onSongSelected(0);
+  it('backward wins on random', () => {
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
+    component.onSongSelected(1);
+    component.onSongSelected(3);
     component.onPlaybackChanged(PlaybackCommand.backward);
 
-    expect(audioMock.src).toBe(component.queue[component.queue.length - 1].src);
+    expect(component.currentTrackIndex).toBe(1);
   });
 
   it('should go to first song when going forward on last song', () => {
@@ -194,7 +197,7 @@ describe('AppComponent', () => {
     spyOn(Random, 'randIntExclusive').and.returnValue(0);
     component.onPlaybackStateChanged(PlaybackStateCommand.random);
     component.onPlaybackStateChanged(PlaybackStateCommand.random);
-    component.onPlaybackChanged(PlaybackCommand.backward);
+    component.onPlaybackChanged(PlaybackCommand.forward);
     expect(Random.randIntExclusive).not.toHaveBeenCalled();
   });
 
@@ -247,7 +250,7 @@ describe('AppComponent', () => {
   });
 
   it('should update trackBarModel if repeat is enabled', () => {
-    // expect(component.trackBarModel.repeat).toBe(false);
+    expect(component.trackBarModel.repeat).toBe(false);
 
     component.onPlaybackStateChanged(PlaybackStateCommand.repeat);
 

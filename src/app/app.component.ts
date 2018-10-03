@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
   private randomPlayback = false;
   private repeat = false;
   private muted = false;
+  private trackHistory: number[] = [];
 
   constructor(private audioProvider: AudioProvider) {
     this.crossFade = { stop: () => null };
@@ -97,6 +98,7 @@ export class AppComponent implements OnInit {
       this.currentTrackIndex = this.randomPlayback ? Random.randIntExclusive(0, this.queue.length) : 0;
     }
 
+    this.trackHistory.push(this.currentTrackIndex);
     const trackData = this.queue[this.currentTrackIndex];
     this.crtTrackBarModel.current.trackData = trackData;
     this.crtAudio.current.src = trackData.src;
@@ -168,14 +170,15 @@ export class AppComponent implements OnInit {
   onPlaybackChanged(command: PlaybackCommand) {
     let trackIndex;
 
-    if (this.randomPlayback) {
+    if (this.randomPlayback && command !== PlaybackCommand.backward) {
       trackIndex = Random.randIntExclusive(0, this.queue.length);
     } else if (this.repeat) {
       trackIndex = this.currentTrackIndex;
     } else {
       switch (command) {
         case PlaybackCommand.backward:
-          trackIndex = (this.queue.length + ((this.currentTrackIndex - 1) % this.queue.length)) % this.queue.length;
+          this.trackHistory.pop();
+          trackIndex = this.trackHistory.pop();
           break;
         case PlaybackCommand.forward:
           trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
@@ -183,8 +186,10 @@ export class AppComponent implements OnInit {
       }
     }
 
-    this.currentTrackIndex = trackIndex;
-    this.switchTrack();
+    if (trackIndex !== undefined) {
+      this.currentTrackIndex = trackIndex;
+      this.switchTrack();
+    }
   }
 
   onPlaybackStateChanged(state: PlaybackStateCommand) {
