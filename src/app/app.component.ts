@@ -36,10 +36,9 @@ export class AppComponent implements OnInit {
       muted: false
     }
   );
-
   public currentTrackIndex = 0;
-  private crtAudio: AOrB<Audio>;
 
+  private crtAudio: AOrB<Audio>;
   private crossFade: any;
   private volume = 1;
   private noCrossFade = true;
@@ -89,10 +88,6 @@ export class AppComponent implements OnInit {
   }
 
   switchTrack() {
-    if (this.randomPlayback) {
-      this.currentTrackIndex = Random.randIntExclusive(0, this.queue.length);
-    }
-
     this.crtAudio.switch();
     this.crtTrackBarModel.switch();
 
@@ -166,13 +161,18 @@ export class AppComponent implements OnInit {
 
   onPlaybackChanged(command: PlaybackCommand) {
     let trackIndex;
-    switch (command) {
-      case PlaybackCommand.backward:
-        trackIndex = (this.queue.length + ((this.currentTrackIndex - 1) % this.queue.length)) % this.queue.length;
-        break;
-      case PlaybackCommand.forward:
-        trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
-        break;
+
+    if (this.randomPlayback) {
+      trackIndex = Random.randIntExclusive(0, this.queue.length);
+    } else {
+      switch (command) {
+        case PlaybackCommand.backward:
+          trackIndex = (this.queue.length + ((this.currentTrackIndex - 1) % this.queue.length)) % this.queue.length;
+          break;
+        case PlaybackCommand.forward:
+          trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
+          break;
+      }
     }
 
     this.currentTrackIndex = trackIndex;
