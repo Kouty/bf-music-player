@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
     duration: 0,
     volume: 1,
     trackData: null,
-    random: false
+    random: false,
+    muted: false
   };
 
   trackBarModelB: TrackBarModel = {
@@ -31,7 +32,8 @@ export class AppComponent implements OnInit {
     duration: 0,
     volume: 1,
     trackData: null,
-    random: false
+    random: false,
+    muted: false
   };
   private _trackBarModel: TrackBarModel;
   public currentTrackIndex = 0;
@@ -43,6 +45,7 @@ export class AppComponent implements OnInit {
   private volume = 1;
   private noCrossFade = true;
   private randomPlayback = false;
+  private muted = false;
 
   constructor(private audioProvider: AudioProvider) {
     this.crossFade = { stop: () => null };
@@ -201,5 +204,13 @@ export class AppComponent implements OnInit {
 
   get playing(): boolean {
     return !this.currentAudio.paused;
+  }
+
+  onMuteStateChanged() {
+    this.muted = !this.muted;
+    this.trackBarModelA.muted = this.muted;
+    this.trackBarModelB.muted = this.muted;
+    this.audioA.muted = this.muted;
+    this.audioB.muted = this.muted;
   }
 }

@@ -5,6 +5,7 @@ export interface TrackBarModel {
   currentTime: number;
   duration: number;
   volume: number;
+  muted: boolean;
   trackData: TrackData;
   random: boolean;
 }

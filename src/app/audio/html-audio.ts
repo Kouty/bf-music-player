@@ -81,4 +81,13 @@ export class HtmlAudio implements Audio {
   pause() {
     this.element.pause();
   }
+
+  get muted(): boolean {
+    return this.element.muted;
+  }
+
+  set muted(value: boolean) {
+    console.log('muted', value);
+    this.element.muted = value;
+  }
 }

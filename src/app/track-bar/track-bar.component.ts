@@ -22,6 +22,8 @@ export class TrackBarComponent implements OnInit {
   playbackChanged = new EventEmitter<PlaybackCommand>();
   @Output()
   playbackStateChanged = new EventEmitter<PlaybackStateCommand>();
+  @Output()
+  muteStateChanged = new EventEmitter<void>();
 
   private _sliderTime = 0;
   private _currentTime: number;
@@ -79,5 +81,9 @@ export class TrackBarComponent implements OnInit {
 
   volumeChange(evt) {
     this.volumeChanged.emit(evt.value);
+  }
+
+  onMuteToggle() {
+    this.muteStateChanged.emit();
   }
 }

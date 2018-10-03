@@ -12,6 +12,7 @@ export interface Audio {
   currentTime: number;
   volume: number;
   paused: boolean;
+  muted: boolean;
 
   play(): Promise<void>;
   pause(): void;
