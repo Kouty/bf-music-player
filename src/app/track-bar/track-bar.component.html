@@ -1,6 +1,14 @@
 <div>
   <div class="container">
-    <div class="left">B</div>
+    <div class="left">
+      <div class="preview">
+        <img *ngIf="model.trackData.img" alt="cover image" [src]="model.trackData.img"/>
+        <div class="info">
+          <div class="title">{{model.trackData.title}}</div>
+          <div class="artist">{{model.trackData.artist}}</div>
+        </div>
+      </div>
+    </div>
 
     <div class="center1 controls">
       <button mat-icon-button class="random" [class.active]="model.random" (click)="randomClick()">

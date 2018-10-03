@@ -3,6 +3,7 @@ export interface TrackData {
   title: string;
   artist: string;
   album: string;
+  img?: string;
 }
 
 export const TRACKS: TrackData[] = [
@@ -10,7 +11,8 @@ export const TRACKS: TrackData[] = [
     src: 'https://www.bensound.com/bensound-music/bensound-ukulele.mp3',
     title: 'Ukulele',
     artist: 'Benjamin TISSOT',
-    album: 'Bensound'
+    album: 'Bensound',
+    img: 'https://www.bensound.com/bensound-img/ukulele.jpg'
   },
   {
     src: 'https://www.bensound.com/bensound-music/bensound-summer.mp3',
