@@ -61,6 +61,10 @@ export class TrackBarComponent implements OnInit {
     this.playbackStateChanged.emit(PlaybackStateCommand.random);
   }
 
+  repeatClick() {
+    this.playbackStateChanged.emit(PlaybackStateCommand.repeat);
+  }
+
   set sliderTime(value) {
     this._preventTimeChange = false;
     this._sliderTime = value;

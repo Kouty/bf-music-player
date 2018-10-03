@@ -146,7 +146,7 @@ describe('AppComponent', () => {
   });
 
   it('should begin with the first trackData', () => {
-    component.pauseCurrentTrack();
+    component.playCurrentTrack();
 
     expect(audioMock.src).not.toBe('');
     expect(component.trackBarModel.trackData).not.toBe(null);
@@ -236,5 +236,21 @@ describe('AppComponent', () => {
 
     audioMock.paused = true;
     expect(component.playing).toBe(false);
+  });
+
+  it('should play the same song if repeat is enabled', () => {
+    component.onSongSelected(0);
+    component.onPlaybackStateChanged(PlaybackStateCommand.repeat);
+    component.onPlaybackChanged(PlaybackCommand.forward);
+
+    expect(component.currentTrackIndex).toBe(0);
+  });
+
+  it('should update trackBarModel if repeat is enabled', () => {
+    // expect(component.trackBarModel.repeat).toBe(false);
+
+    component.onPlaybackStateChanged(PlaybackStateCommand.repeat);
+
+    expect(component.trackBarModel.repeat).toBe(true);
   });
 });

@@ -14,7 +14,8 @@ describe('TrackBarComponent', () => {
       volume: 1,
       trackData: null,
       random: false,
-      muted: false
+      muted: false,
+      repeat: false,
     };
   });
 
@@ -91,5 +92,14 @@ describe('TrackBarComponent', () => {
     });
 
     component.randomClick();
+  });
+
+  it('should emit repeat click event', done => {
+    component.playbackStateChanged.subscribe(command => {
+      expect(command).toBe(PlaybackStateCommand.repeat);
+      done();
+    });
+
+    component.repeatClick();
   });
 });

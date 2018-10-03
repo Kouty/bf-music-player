@@ -8,4 +8,5 @@ export interface TrackBarModel {
   muted: boolean;
   trackData: TrackData;
   random: boolean;
+  repeat: boolean;
 }

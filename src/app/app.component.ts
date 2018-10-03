@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
       volume: 1,
       trackData: null,
       random: false,
-      muted: false
+      muted: false,
+      repeat: false
     },
     {
       paused: true,
@@ -33,7 +34,8 @@ export class AppComponent implements OnInit {
       volume: 1,
       trackData: null,
       random: false,
-      muted: false
+      muted: false,
+      repeat: false
     }
   );
   public currentTrackIndex = -1;
@@ -43,6 +45,7 @@ export class AppComponent implements OnInit {
   private volume = 1;
   private noCrossFade = true;
   private randomPlayback = false;
+  private repeat = false;
   private muted = false;
 
   constructor(private audioProvider: AudioProvider) {
@@ -167,6 +170,8 @@ export class AppComponent implements OnInit {
 
     if (this.randomPlayback) {
       trackIndex = Random.randIntExclusive(0, this.queue.length);
+    } else if (this.repeat) {
+      trackIndex = this.currentTrackIndex;
     } else {
       switch (command) {
         case PlaybackCommand.backward:
@@ -187,10 +192,15 @@ export class AppComponent implements OnInit {
       case PlaybackStateCommand.random:
         this.randomPlayback = !this.randomPlayback;
         break;
+      case PlaybackStateCommand.repeat:
+        this.repeat = !this.repeat;
+        break;
     }
 
     this.crtTrackBarModel.current.random = this.randomPlayback;
     this.crtTrackBarModel.other.random = this.randomPlayback;
+    this.crtTrackBarModel.current.repeat = this.repeat;
+    this.crtTrackBarModel.other.repeat = this.repeat;
   }
 
   get playing(): boolean {

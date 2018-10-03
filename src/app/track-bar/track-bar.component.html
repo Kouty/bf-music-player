@@ -24,7 +24,7 @@
       <button mat-icon-button (click)="forwardClick()">
         <mat-icon>fast_forward</mat-icon>
       </button>
-      <button mat-icon-button class="repeat">
+      <button mat-icon-button class="repeat" [class.active]="model.repeat" (click)="repeatClick()">
         <mat-icon>repeat</mat-icon>
       </button>
     </div>
