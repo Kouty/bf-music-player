@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       muted: false
     }
   );
-  public currentTrackIndex = 0;
+  public currentTrackIndex = -1;
 
   private crtAudio: AOrB<Audio>;
   private crossFade: any;
@@ -91,6 +91,10 @@ export class AppComponent implements OnInit {
     this.crtAudio.switch();
     this.crtTrackBarModel.switch();
 
+    if (this.currentTrackIndex === -1) {
+      this.currentTrackIndex = this.randomPlayback ? Random.randIntExclusive(0, this.queue.length) : 0;
+    }
+
     const trackData = this.queue[this.currentTrackIndex];
     this.crtTrackBarModel.current.trackData = trackData;
     this.crtAudio.current.src = trackData.src;
@@ -119,7 +123,7 @@ export class AppComponent implements OnInit {
   }
 
   playCurrentTrack() {
-    if (this.noCrossFade && this.randomPlayback) {
+    if (this.noCrossFade) {
       this.switchTrack();
     } else {
       this.crtAudio.current.play();

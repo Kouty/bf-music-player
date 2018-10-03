@@ -146,38 +146,46 @@ describe('AppComponent', () => {
   });
 
   it('should begin with the first trackData', () => {
+    component.pauseCurrentTrack();
+
     expect(audioMock.src).not.toBe('');
     expect(component.trackBarModel.trackData).not.toBe(null);
   });
 
   it('should go to next song on forward click', () => {
+    component.onSongSelected(0);
     component.onPlaybackChanged(PlaybackCommand.forward);
+
     expect(audioMock.src).toBe(component.queue[1].src);
   });
 
   it('should go to previous song on backward click', () => {
     component.onSongSelected(1);
     component.onPlaybackChanged(PlaybackCommand.backward);
+
     expect(audioMock.src).toBe(component.queue[0].src);
   });
 
   it('should go to last song when going backward on first song', () => {
     component.onSongSelected(0);
     component.onPlaybackChanged(PlaybackCommand.backward);
+
     expect(audioMock.src).toBe(component.queue[component.queue.length - 1].src);
   });
 
   it('should go to first song when going forward on last song', () => {
     component.onSongSelected(component.queue.length - 1);
     component.onPlaybackChanged(PlaybackCommand.forward);
+
     expect(audioMock.src).toBe(component.queue[0].src);
   });
 
-  it('should go to a random song when user clicks random', () => {
+  it('should go to a random song when user fast forward and random is active', () => {
     component.onSongSelected(1);
     spyOn(Random, 'randIntExclusive').and.returnValue(0);
     component.onPlaybackStateChanged(PlaybackStateCommand.random);
     component.onPlaybackChanged(PlaybackCommand.forward);
+
     expect(Random.randIntExclusive).toHaveBeenCalled();
     expect(audioMock.src).toBe(component.queue[0].src);
   });
@@ -191,12 +199,12 @@ describe('AppComponent', () => {
   });
 
   it('should play a random song if users click random before first play', () => {
-    spyOn(component, 'switchTrack');
+    spyOn(Random, 'randIntExclusive').and.returnValue(3);
 
     component.onPlaybackStateChanged(PlaybackStateCommand.random);
     component.playCurrentTrack();
 
-    expect(component.switchTrack).toHaveBeenCalled();
+    expect(component.currentTrackIndex).toBe(3);
   });
 
   it('should update trackModel when user activates random play', () => {
