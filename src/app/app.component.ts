@@ -16,28 +16,7 @@ import { AOrB } from './helpers/a-or-b';
 })
 export class AppComponent implements OnInit {
   queue: TrackData[] = TRACKS;
-  private crtTrackBarModel: AOrB<TrackBarModel> = new AOrB<TrackBarModel>(
-    {
-      paused: true,
-      currentTime: 0,
-      duration: 0,
-      volume: 1,
-      trackData: null,
-      random: false,
-      muted: false,
-      repeat: false
-    },
-    {
-      paused: true,
-      currentTime: 0,
-      duration: 0,
-      volume: 1,
-      trackData: null,
-      random: false,
-      muted: false,
-      repeat: false
-    }
-  );
+  private crtTrackBarModel: AOrB<TrackBarModel>;
   public currentTrackIndex = -1;
 
   private crtAudio: AOrB<Audio>;
@@ -51,6 +30,47 @@ export class AppComponent implements OnInit {
 
   constructor(private audioProvider: AudioProvider) {
     this.crossFade = { stop: () => null };
+    const me = this;
+    this.crtTrackBarModel = new AOrB<TrackBarModel>(
+      {
+        paused: true,
+        currentTime: 0,
+        duration: 0,
+        volume: 1,
+        trackData: null,
+        get random() {
+          return me.randomPlayback;
+        },
+        get muted() {
+          return me.muted;
+        },
+        get repeat() {
+          return me.repeat;
+        },
+        get backEnabled() {
+          return me.trackHistory.length >= 2;
+        }
+      },
+      {
+        paused: true,
+        currentTime: 0,
+        duration: 0,
+        volume: 1,
+        trackData: null,
+        get random() {
+          return me.randomPlayback;
+        },
+        get muted() {
+          return me.muted;
+        },
+        get repeat() {
+          return me.repeat;
+        },
+        get backEnabled() {
+          return me.trackHistory.length >= 2;
+        }
+      }
+    );
   }
 
   ngOnInit() {
@@ -177,8 +197,11 @@ export class AppComponent implements OnInit {
     } else {
       switch (command) {
         case PlaybackCommand.backward:
-          this.trackHistory.pop();
-          trackIndex = this.trackHistory.pop();
+          if (this.trackHistory.length >= 2) {
+            this.trackHistory.pop();
+            trackIndex = this.trackHistory.pop();
+          }
+
           break;
         case PlaybackCommand.forward:
           trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
@@ -201,11 +224,6 @@ export class AppComponent implements OnInit {
         this.repeat = !this.repeat;
         break;
     }
-
-    this.crtTrackBarModel.current.random = this.randomPlayback;
-    this.crtTrackBarModel.other.random = this.randomPlayback;
-    this.crtTrackBarModel.current.repeat = this.repeat;
-    this.crtTrackBarModel.other.repeat = this.repeat;
   }
 
   get playing(): boolean {
@@ -214,8 +232,6 @@ export class AppComponent implements OnInit {
 
   onMuteStateChanged() {
     this.muted = !this.muted;
-    this.crtTrackBarModel.current.muted = this.muted;
-    this.crtTrackBarModel.other.muted = this.muted;
     this.crtAudio.current.muted = this.muted;
     this.crtAudio.other.muted = this.muted;
   }

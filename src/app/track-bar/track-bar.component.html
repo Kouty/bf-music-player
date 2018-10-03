@@ -14,7 +14,7 @@
       <button mat-icon-button class="random" [class.active]="model.random" (click)="randomClick()">
         <mat-icon>shuffle</mat-icon>
       </button>
-      <button mat-icon-button (click)="backwardClick()">
+      <button [disabled]="!model.backEnabled" mat-icon-button (click)="backwardClick()">
         <mat-icon>fast_rewind</mat-icon>
       </button>
       <button mat-icon-button (click)="playPauseClick()" class="play-pause">

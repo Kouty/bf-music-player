@@ -9,4 +9,5 @@ export interface TrackBarModel {
   trackData: TrackData;
   random: boolean;
   repeat: boolean;
+  backEnabled: boolean;
 }

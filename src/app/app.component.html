@@ -2,6 +2,7 @@
 <mat-toolbar color="primary">BitForce music player</mat-toolbar>
 <div class="content">
   <app-track-bar [model]="trackBarModel" [currentTime]="trackBarModel.currentTime"
+                 [backEnabled]="trackBarModel.backEnabled"
                  (playPauseClicked)="onPlayPauseClick($event)" (timeChanged)="onSeek($event)"
                  (volumeChanged)="onVolumeChanged($event)"
                  (playbackChanged)="onPlaybackChanged($event)"

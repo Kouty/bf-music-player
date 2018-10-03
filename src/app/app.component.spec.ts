@@ -80,7 +80,7 @@ describe('AppComponent', () => {
     expect(audioMock.currentTime).toBe(13);
   });
 
-  describe('volume', () => {
+  describe('audio', () => {
     let audioMock2;
 
     beforeEach(() => {
@@ -142,6 +142,17 @@ describe('AppComponent', () => {
 
       expect(audioMock.volume).toBe(0);
       expect(audioMock2.volume).toBe(1);
+    });
+
+    it('should be able to mute audio', () => {
+      component.onMuteStateChanged();
+
+      expect(audioMock.muted).toBe(true);
+      expect(audioMock2.muted).toBe(true);
+
+      expect(component.trackBarModel.muted).toBe(true);
+      component.switchTrack();
+      expect(component.trackBarModel.muted).toBe(true);
     });
   });
 
@@ -255,5 +266,16 @@ describe('AppComponent', () => {
     component.onPlaybackStateChanged(PlaybackStateCommand.repeat);
 
     expect(component.trackBarModel.repeat).toBe(true);
+  });
+
+  it('should start with back button disabled', () => {
+    expect(component.trackBarModel.backEnabled).toBe(false);
+  });
+
+  it('should set backEnabled to true when the history has more than two elements', () => {
+    component.onSongSelected(1);
+    component.onSongSelected(2);
+
+    expect(component.trackBarModel.backEnabled).toBe(true);
   });
 });

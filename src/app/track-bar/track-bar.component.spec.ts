@@ -16,6 +16,7 @@ describe('TrackBarComponent', () => {
       random: false,
       muted: false,
       repeat: false,
+      backEnabled: true
     };
   });
 
