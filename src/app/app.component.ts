@@ -7,6 +7,7 @@ import * as TWEEN from '@tweenjs/tween.js';
 import { PlaybackCommand } from './track-bar/playback-command';
 import { Random } from './random/random';
 import { PlaybackStateCommand } from './track-bar/platyback-state-command';
+import { AOrB } from './helpers/a-or-b';
 
 @Component({
   selector: 'app-root',
@@ -15,32 +16,30 @@ import { PlaybackStateCommand } from './track-bar/platyback-state-command';
 })
 export class AppComponent implements OnInit {
   queue: TrackData[] = TRACKS;
+  private crtTrackBarModel: AOrB<TrackBarModel> = new AOrB<TrackBarModel>(
+    {
+      paused: true,
+      currentTime: 0,
+      duration: 0,
+      volume: 1,
+      trackData: null,
+      random: false,
+      muted: false
+    },
+    {
+      paused: true,
+      currentTime: 0,
+      duration: 0,
+      volume: 1,
+      trackData: null,
+      random: false,
+      muted: false
+    }
+  );
 
-  trackBarModelA: TrackBarModel = {
-    paused: true,
-    currentTime: 0,
-    duration: 0,
-    volume: 1,
-    trackData: null,
-    random: false,
-    muted: false
-  };
-
-  trackBarModelB: TrackBarModel = {
-    paused: true,
-    currentTime: 0,
-    duration: 0,
-    volume: 1,
-    trackData: null,
-    random: false,
-    muted: false
-  };
-  private _trackBarModel: TrackBarModel;
   public currentTrackIndex = 0;
+  private crtAudio: AOrB<Audio>;
 
-  private audioA: Audio;
-  private audioB: Audio;
-  private currentAudio: Audio;
   private crossFade: any;
   private volume = 1;
   private noCrossFade = true;
@@ -52,41 +51,41 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.audioA = this.audioProvider.createAudio();
-    this.audioA.src = this.queue[0].src;
-    this.currentAudio = this.audioA;
-    this._trackBarModel = this.trackBarModelA;
-    this._trackBarModel.trackData = this.queue[0];
-    this.audioA.onPause.subscribe(paused => {
-      this.trackBarModelA.paused = paused;
+    const audioA = this.audioProvider.createAudio();
+    const audioB = this.audioProvider.createAudio();
+    this.crtAudio = new AOrB(audioA, audioB);
+
+    audioA.src = this.queue[0].src;
+    this.crtTrackBarModel.current.trackData = this.queue[0];
+    audioA.onPause.subscribe(paused => {
+      this.crtTrackBarModel.a.paused = paused;
     });
-    this.audioA.onTimeUpdate.subscribe(currentTime => {
-      this.trackBarModelA.currentTime = currentTime;
+    audioA.onTimeUpdate.subscribe(currentTime => {
+      this.crtTrackBarModel.a.currentTime = currentTime;
     });
-    this.audioA.onLoadedMetadata.subscribe(() => {
-      this.trackBarModelA.duration = this.audioA.duration;
+    audioA.onLoadedMetadata.subscribe(() => {
+      this.crtTrackBarModel.a.duration = audioA.duration;
     });
     const forward = () => {
       this.noCrossFade = true;
       this.onPlaybackChanged(PlaybackCommand.forward);
     };
-    this.audioA.onEnded.subscribe(forward);
+    audioA.onEnded.subscribe(forward);
 
-    this.audioB = this.audioProvider.createAudio();
-    this.audioB.onPause.subscribe(paused => {
-      this.trackBarModelB.paused = paused;
+    audioB.onPause.subscribe(paused => {
+      this.crtTrackBarModel.b.paused = paused;
     });
-    this.audioB.onTimeUpdate.subscribe(currentTime => {
-      this.trackBarModelB.currentTime = currentTime;
+    audioB.onTimeUpdate.subscribe(currentTime => {
+      this.crtTrackBarModel.b.currentTime = currentTime;
     });
-    this.audioB.onLoadedMetadata.subscribe(() => {
-      this.trackBarModelB.duration = this.audioB.duration;
+    audioB.onLoadedMetadata.subscribe(() => {
+      this.crtTrackBarModel.b.duration = audioB.duration;
     });
-    this.audioB.onEnded.subscribe(forward);
+    audioB.onEnded.subscribe(forward);
   }
 
   get trackBarModel() {
-    return this._trackBarModel;
+    return this.crtTrackBarModel.current;
   }
 
   switchTrack() {
@@ -94,40 +93,33 @@ export class AppComponent implements OnInit {
       this.currentTrackIndex = Random.randIntExclusive(0, this.queue.length);
     }
 
-    let otherAudio: Audio;
-    if (this.currentAudio === this.audioA) {
-      this.currentAudio = this.audioB;
-      this._trackBarModel = this.trackBarModelB;
-      otherAudio = this.audioA;
-    } else {
-      this.currentAudio = this.audioA;
-      this._trackBarModel = this.trackBarModelA;
-      otherAudio = this.audioB;
-    }
-    const trackData = this.queue[this.currentTrackIndex];
-    this._trackBarModel.trackData = trackData;
-    this.currentAudio.src = trackData.src;
-    this.currentAudio.currentTime = 0;
+    this.crtAudio.switch();
+    this.crtTrackBarModel.switch();
 
-    this.currentAudio.play();
-    otherAudio.play();
+    const trackData = this.queue[this.currentTrackIndex];
+    this.crtTrackBarModel.current.trackData = trackData;
+    this.crtAudio.current.src = trackData.src;
+    this.crtAudio.current.currentTime = 0;
+
+    this.crtAudio.current.play();
+    this.crtAudio.other.play();
     this.crossFade.stop();
 
     if (!this.noCrossFade) {
-      const toTween = { current: 0, other: this.otherAudio.volume };
+      const toTween = { current: 0, other: this.crtAudio.other.volume };
       this.crossFade = new TWEEN.Tween(toTween)
         .to({ current: 1, other: 0 }, 8000)
         .easing(TWEEN.Easing.Quadratic.Out)
         .onUpdate(() => {
-          this.currentAudio.volume = toTween.current * this.volume;
-          otherAudio.volume = toTween.other * this.volume;
+          this.crtAudio.current.volume = toTween.current * this.volume;
+          this.crtAudio.other.volume = toTween.other * this.volume;
         })
-        .onComplete(() => otherAudio.pause())
+        .onComplete(() => this.crtAudio.other.pause())
         .start();
     } else {
       this.noCrossFade = false;
-      this.currentAudio.volume = this.volume;
-      otherAudio.volume = 0;
+      this.crtAudio.current.volume = this.volume;
+      this.crtAudio.other.volume = 0;
     }
   }
 
@@ -135,21 +127,17 @@ export class AppComponent implements OnInit {
     if (this.noCrossFade && this.randomPlayback) {
       this.switchTrack();
     } else {
-      this.currentAudio.play();
+      this.crtAudio.current.play();
     }
     this.noCrossFade = false;
   }
 
   pauseCurrentTrack(): void {
-    this.audioA.pause();
-    this.audioB.pause();
+    this.crtAudio.current.pause();
+    this.crtAudio.other.pause();
     this.crossFade.stop();
-    this.currentAudio.volume = this.volume;
-    this.otherAudio.volume = 0;
-  }
-
-  get otherAudio() {
-    return this.currentAudio === this.audioA ? this.audioB : this.audioA;
+    this.crtAudio.current.volume = this.volume;
+    this.crtAudio.other.volume = 0;
   }
 
   onSongSelected(index: number) {
@@ -166,14 +154,14 @@ export class AppComponent implements OnInit {
   }
 
   onSeek(time) {
-    this.currentAudio.currentTime = time;
+    this.crtAudio.current.currentTime = time;
   }
 
   onVolumeChanged(value: number) {
     this.volume = value;
-    this.currentAudio.volume = value;
-    this.trackBarModelA.volume = value;
-    this.trackBarModelB.volume = value;
+    this.crtAudio.current.volume = value;
+    this.crtTrackBarModel.current.volume = value;
+    this.crtTrackBarModel.other.volume = value;
   }
 
   onPlaybackChanged(command: PlaybackCommand) {
@@ -198,19 +186,19 @@ export class AppComponent implements OnInit {
         break;
     }
 
-    this.trackBarModelA.random = this.randomPlayback;
-    this.trackBarModelB.random = this.randomPlayback;
+    this.crtTrackBarModel.current.random = this.randomPlayback;
+    this.crtTrackBarModel.other.random = this.randomPlayback;
   }
 
   get playing(): boolean {
-    return !this.currentAudio.paused;
+    return !this.crtAudio.current.paused;
   }
 
   onMuteStateChanged() {
     this.muted = !this.muted;
-    this.trackBarModelA.muted = this.muted;
-    this.trackBarModelB.muted = this.muted;
-    this.audioA.muted = this.muted;
-    this.audioB.muted = this.muted;
+    this.crtTrackBarModel.current.muted = this.muted;
+    this.crtTrackBarModel.other.muted = this.muted;
+    this.crtAudio.current.muted = this.muted;
+    this.crtAudio.other.muted = this.muted;
   }
 }

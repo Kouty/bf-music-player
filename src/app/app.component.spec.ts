@@ -120,8 +120,7 @@ describe('AppComponent', () => {
       component.onVolumeChanged(volume);
 
       expect(audioMock.volume).toBe(0.5);
-      expect(component.trackBarModelA.volume).toBe(volume);
-      expect(component.trackBarModelB.volume).toBe(volume);
+      expect(component.trackBarModel.volume).toBe(volume);
     });
 
     it('should restore the volume when stopping the cross fade', () => {

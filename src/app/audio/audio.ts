@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 export interface Audio {
 
   src: string;
-  onPause: Observable<boolean>;
-  onTimeUpdate: Observable<number>;
-  onLoadedMetadata: Observable<void>;
-  onEnded: Observable<void>;
+  readonly onPause: Observable<boolean>;
+  readonly onTimeUpdate: Observable<number>;
+  readonly onLoadedMetadata: Observable<void>;
+  readonly onEnded: Observable<void>;
 
-  duration: number;
+  readonly duration: number;
   currentTime: number;
   volume: number;
   paused: boolean;

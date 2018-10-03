@@ -13,7 +13,8 @@ describe('TrackBarComponent', () => {
       duration: 60,
       volume: 1,
       trackData: null,
-      random: false
+      random: false,
+      muted: false
     };
   });
 
