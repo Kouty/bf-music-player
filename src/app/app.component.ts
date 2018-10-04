@@ -118,7 +118,9 @@ export class AppComponent implements OnInit {
       this.currentTrackIndex = this.randomPlayback ? Random.randIntExclusive(0, this.queue.length) : 0;
     }
 
-    this.trackHistory.push(this.currentTrackIndex);
+    if (this.currentTrackIndex !== this.trackHistory[this.trackHistory.length - 1]) {
+      this.trackHistory.push(this.currentTrackIndex);
+    }
     const trackData = this.queue[this.currentTrackIndex];
     this.crtTrackBarModel.current.trackData = trackData;
     this.crtAudio.current.src = trackData.src;
@@ -190,23 +192,17 @@ export class AppComponent implements OnInit {
   onPlaybackChanged(command: PlaybackCommand) {
     let trackIndex;
 
-    if (this.randomPlayback && command !== PlaybackCommand.backward) {
+    if (command === PlaybackCommand.backward) {
+      if (this.trackHistory.length >= 2) {
+        this.trackHistory.pop();
+        trackIndex = this.trackHistory.pop();
+      }
+    } else if (this.randomPlayback) {
       trackIndex = Random.randIntExclusive(0, this.queue.length);
     } else if (this.repeat) {
       trackIndex = this.currentTrackIndex;
-    } else {
-      switch (command) {
-        case PlaybackCommand.backward:
-          if (this.trackHistory.length >= 2) {
-            this.trackHistory.pop();
-            trackIndex = this.trackHistory.pop();
-          }
-
-          break;
-        case PlaybackCommand.forward:
-          trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
-          break;
-      }
+    } else if (command === PlaybackCommand.forward) {
+      trackIndex = (this.currentTrackIndex + 1) % this.queue.length;
     }
 
     if (trackIndex !== undefined) {

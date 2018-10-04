@@ -278,4 +278,32 @@ describe('AppComponent', () => {
 
     expect(component.trackBarModel.backEnabled).toBe(true);
   });
+
+  it('should not put in the history the same track', () => {
+    component.onSongSelected(1);
+    component.onSongSelected(2);
+    component.onPlaybackStateChanged(PlaybackStateCommand.repeat);
+    component.onPlaybackChanged(PlaybackCommand.forward);
+    component.onPlaybackChanged(PlaybackCommand.backward);
+
+    expect(component.currentTrackIndex).toBe(1);
+  });
+
+  it('backwards ignore repeat play state', () => {
+    component.onSongSelected(1);
+    component.onSongSelected(2);
+    component.onPlaybackStateChanged(PlaybackStateCommand.repeat);
+    component.onPlaybackChanged(PlaybackCommand.backward);
+
+    expect(component.currentTrackIndex).toBe(1);
+  });
+
+  it('backwards ignore random play state', () => {
+    component.onSongSelected(1);
+    component.onSongSelected(2);
+    component.onPlaybackStateChanged(PlaybackStateCommand.random);
+    component.onPlaybackChanged(PlaybackCommand.backward);
+
+    expect(component.currentTrackIndex).toBe(1);
+  });
 });
