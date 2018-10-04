@@ -1,9 +1,9 @@
 export interface TrackData {
-  src: string;
-  title: string;
-  artist: string;
-  album: string;
-  img?: string;
+  readonly src: string;
+  readonly title: string;
+  readonly artist: string;
+  readonly album: string;
+  readonly img?: string;
 }
 
 export const TRACKS: TrackData[] = [

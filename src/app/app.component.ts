@@ -36,8 +36,12 @@ export class AppComponent implements OnInit {
         paused: true,
         currentTime: 0,
         duration: 0,
-        volume: 1,
-        trackData: null,
+        get trackData(): TrackData {
+          return me.queue[Math.max(me.currentTrackIndex, 0)];
+        },
+        get volume(): number {
+          return me.volume;
+        },
         get random() {
           return me.randomPlayback;
         },
@@ -55,8 +59,12 @@ export class AppComponent implements OnInit {
         paused: true,
         currentTime: 0,
         duration: 0,
-        volume: 1,
-        trackData: null,
+        get trackData(): TrackData {
+          return me.queue[Math.max(me.currentTrackIndex, 0)];
+        },
+        get volume(): number {
+          return me.volume;
+        },
         get random() {
           return me.randomPlayback;
         },
@@ -78,7 +86,6 @@ export class AppComponent implements OnInit {
     const audioB = this.audioProvider.createAudio();
     this.crtAudio = new AOrB(audioA, audioB);
 
-    this.crtTrackBarModel.current.trackData = this.queue[0];
     audioA.onPause.subscribe(paused => {
       this.crtTrackBarModel.a.paused = paused;
     });
@@ -122,7 +129,6 @@ export class AppComponent implements OnInit {
       this.trackHistory.push(this.currentTrackIndex);
     }
     const trackData = this.queue[this.currentTrackIndex];
-    this.crtTrackBarModel.current.trackData = trackData;
     this.crtAudio.current.src = trackData.src;
     this.crtAudio.current.currentTime = 0;
 
@@ -185,8 +191,6 @@ export class AppComponent implements OnInit {
   onVolumeChanged(value: number) {
     this.volume = value;
     this.crtAudio.current.volume = value;
-    this.crtTrackBarModel.current.volume = value;
-    this.crtTrackBarModel.other.volume = value;
   }
 
   onPlaybackChanged(command: PlaybackCommand) {

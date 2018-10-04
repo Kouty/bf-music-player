@@ -1,6 +1,6 @@
 import { HtmlAudio } from './html-audio';
 
-describe('AudioTrack', () => {
+describe('HtmlAudio', () => {
   let audio: HtmlAudio;
   let audioElementMock;
 
