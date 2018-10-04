@@ -1,6 +1,5 @@
 import 'hammerjs';
 import 'normalize.css';
-import * as TWEEN from '@tweenjs/tween.js';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
@@ -14,9 +13,3 @@ if (environment.production) {
 platformBrowserDynamic()
   .bootstrapModule(AppModule)
   .catch(err => console.error(err));
-
-function animate(time) {
-  requestAnimationFrame(animate);
-  TWEEN.update(time);
-}
-requestAnimationFrame(animate);

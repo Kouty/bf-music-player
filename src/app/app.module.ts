@@ -8,6 +8,7 @@ import {
   MatToolbarModule,
   MatGridListModule
 } from '@angular/material';
+import * as TWEEN from '@tweenjs/tween.js';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,3 +32,9 @@ import { AudioProvider } from './audio/audio-provider';
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+
+function animate(time) {
+  requestAnimationFrame(animate);
+  TWEEN.update(time);
+}
+requestAnimationFrame(animate);
