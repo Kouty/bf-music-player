@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 
 export interface Audio {
-
   src: string;
   readonly onPause: Observable<boolean>;
   readonly onTimeUpdate: Observable<number>;
