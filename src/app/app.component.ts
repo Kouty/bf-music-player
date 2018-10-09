@@ -95,11 +95,13 @@ export class AppComponent implements OnInit {
     audioA.onLoadedMetadata.subscribe(() => {
       this.crtTrackBarModel.a.duration = audioA.duration;
     });
-    const forward = () => {
-      this.noCrossFade = true;
-      this.onPlaybackChanged(PlaybackCommand.forward);
+    const forward = endedAudio => {
+      if (this.crtAudio.current === endedAudio) {
+        this.noCrossFade = true;
+        this.onPlaybackChanged(PlaybackCommand.forward);
+      }
     };
-    audioA.onEnded.subscribe(forward);
+    audioA.onEnded.subscribe(() => forward(audioA));
 
     audioB.onPause.subscribe(paused => {
       this.crtTrackBarModel.b.paused = paused;
@@ -110,7 +112,7 @@ export class AppComponent implements OnInit {
     audioB.onLoadedMetadata.subscribe(() => {
       this.crtTrackBarModel.b.duration = audioB.duration;
     });
-    audioB.onEnded.subscribe(forward);
+    audioB.onEnded.subscribe(() => forward(audioB));
   }
 
   get trackBarModel() {

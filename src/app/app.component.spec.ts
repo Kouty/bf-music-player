@@ -154,6 +154,22 @@ describe('AppComponent', () => {
       component.switchTrack();
       expect(component.trackBarModel.muted).toBe(true);
     });
+
+    it('should play next song on current song ended', () => {
+      spyOn(component, 'onPlaybackChanged');
+
+      audioMock.onEnded.next();
+
+      expect(component.onPlaybackChanged).toHaveBeenCalledWith(PlaybackCommand.forward);
+    });
+
+    it('should not play next song if the song ended is not the current one', () => {
+      spyOn(component, 'onPlaybackChanged');
+
+      audioMock2.onEnded.next();
+
+      expect(component.onPlaybackChanged).not.toHaveBeenCalledWith(PlaybackCommand.forward);
+    });
   });
 
   it('should begin with the first trackData', () => {
@@ -233,15 +249,6 @@ describe('AppComponent', () => {
     component.switchTrack();
 
     expect(component.trackBarModel.random).toBe(true);
-  });
-
-  it('should play next song on current song ended', () => {
-    spyOn(component, 'onPlaybackChanged');
-
-    component.playCurrentTrack();
-    audioMock.onEnded.next();
-
-    expect(component.onPlaybackChanged).toHaveBeenCalledWith(PlaybackCommand.forward);
   });
 
   it('should tell if the current song is playing', () => {
